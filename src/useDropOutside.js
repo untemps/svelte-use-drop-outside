@@ -17,14 +17,13 @@ const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropIn
 
 		document.addEventListener('dragover', _onDragOver)
 		document.addEventListener('drop', _onDrop)
-		
+
 		node.addEventListener('dragend', _onDragEnd)
 	}
 
 	const _onDragOver = (e) => {
 		e.preventDefault()
 
-		
 		if (e.target === safeArea || safeArea.contains(e.target)) {
 			e.dataTransfer.dropEffect = 'none'
 		}
@@ -35,7 +34,7 @@ const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropIn
 
 		document.removeEventListener('dragover', _onDragOver)
 		document.removeEventListener('drop', _onDrop)
-		
+
 		onDropInside?.(node)
 	}
 
@@ -47,7 +46,7 @@ const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropIn
 
 		if (e.target !== safeArea && !safeArea.contains(e.target)) {
 			onDropOutside?.(node)
-			
+
 			node.removeEventListener('dragend', _onDragEnd)
 		}
 	}
