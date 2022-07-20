@@ -2,7 +2,6 @@ import { resolveDragImage } from './utils/resolveDragImage'
 
 // TODO: Add classes for drag operations
 // TODO: Add callback for drag cancellation
-// TODO: Fix drop outside window boundaries
 const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropInside }) => {
 	const safeArea = document.querySelector(areaSelector)
 
@@ -35,7 +34,11 @@ const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropIn
 		document.removeEventListener('dragover', _onDragOver)
 		document.removeEventListener('drop', _onDrop)
 
-		onDropInside?.(node)
+		if (e.clientX < 0 || e.clientX > window.innerWidth || e.clientY < 0 || e.clientY > window.innerHeight) {
+			onDropOutside?.(node)
+		} else {
+			onDropInside?.(node)
+		}
 	}
 
 	const _onDrop = (e) => {
