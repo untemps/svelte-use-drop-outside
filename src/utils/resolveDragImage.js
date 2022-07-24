@@ -1,16 +1,16 @@
 import { isString } from '@untemps/utils/string/isString'
+import { isElement } from '@untemps/utils/dom/isElement'
 
-export const resolveDragImage = (image) => {
-	if (!!image) {
-		let source = image?.source || image
-		if (isString(image) || isString(image?.source)) {
-			source = new Image()
-			source.src = image?.source || image
-		}
-		return {
-			imgElement: source,
-			xOffset: image?.xOffset || 0,
-			yOffset: image?.yOffset || 0,
+export const resolveDragImage = (source) => {
+	if (!!source) {
+		if (isElement(source)) {
+			return source
+		} else if (source.src || isString(source)) {
+			const image = new Image()
+			image.src = source.src || source
+			source.width && (image.width = source.width)
+			source.height && (image.height = source.height)
+			return image
 		}
 	}
 	return null

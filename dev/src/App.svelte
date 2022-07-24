@@ -27,6 +27,9 @@
 		</div>
 	</div>
 </main>
+<template id="drag-image">
+  <img src="https://cdn-icons-png.flaticon.com/512/636/636045.png" alt="dragging" width="48" height="48"/>
+</template>
 
 <style>
 	main {

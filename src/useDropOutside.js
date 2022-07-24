@@ -1,67 +1,101 @@
+import { DOMObserver } from '@untemps/dom-observer'
+
 import { resolveDragImage } from './utils/resolveDragImage'
+import { doElementsOverlap } from './utils/doElementsOverlap'
 
-// TODO: Add classes for drag operations
-// TODO: Add callback for drag cancellation
+let holdX = 0
+let holdY = 0
+let observer = null
+let drag = null
+let dragWidth = 0
+let dragHeight = 0
+
 const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropInside }) => {
-	const safeArea = document.querySelector(areaSelector)
+	const area = document.querySelector(areaSelector)
 
-	const _onDragStart = (e) => {
-		e.dataTransfer.effectAllowed = 'move'
-		e.dataTransfer.setData('text/plain', '')
-
-		const source = resolveDragImage(dragImage)
-		if (!!source) {
-			e.dataTransfer.setDragImage(source.imgElement, source.xOffset, source.yOffset)
-		}
-
-		document.addEventListener('dragover', _onDragOver)
-		document.addEventListener('drop', _onDrop)
-
-		node.addEventListener('dragend', _onDragEnd)
+	const onMouseOver = (e) => {
+		e.target.style.cursor = 'grab'
 	}
 
-	const _onDragOver = (e) => {
-		e.preventDefault()
-
-		if (e.target === safeArea || safeArea.contains(e.target)) {
-			e.dataTransfer.dropEffect = 'none'
-		}
+	const onMouseOut = (e) => {
+		e.target.style.cursor = 'default'
 	}
 
-	const _onDragEnd = (e) => {
-		e.preventDefault()
-
-		document.removeEventListener('dragover', _onDragOver)
-		document.removeEventListener('drop', _onDrop)
-
-		if (e.clientX < 0 || e.clientX > window.innerWidth || e.clientY < 0 || e.clientY > window.innerHeight) {
-			onDropOutside?.(node)
-		} else {
-			onDropInside?.(node)
+	const onMouseMove = (e) => {
+		if (!drag.parentNode) {
+			node.parentNode.appendChild(drag)
 		}
+
+		const pageX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX
+		const pageY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY
+
+		drag.style.left = pageX - (dragImage ? dragWidth >> 1 : holdX) + 'px'
+		drag.style.top = pageY - (dragImage ? dragHeight >> 1 : holdY) + 'px'
 	}
 
-	const _onDrop = (e) => {
-		e.preventDefault()
+	const onMouseDown = (e) => {
+		const clientX = e.type === 'touchstart' ? e.targetTouches[0].clientX : e.clientX
+		const clientY = e.type === 'touchstart' ? e.targetTouches[0].clientY : e.clientY
+		holdX = clientX - node.getBoundingClientRect().left
+		holdY = clientY - node.getBoundingClientRect().top
 
-		document.removeEventListener('dragover', _onDragOver)
-		document.removeEventListener('drop', _onDrop)
+		drag.style.cursor = 'grabbing'
 
-		if (e.target !== safeArea && !safeArea.contains(e.target)) {
-			onDropOutside?.(node)
-
-			node.removeEventListener('dragend', _onDragEnd)
-		}
+		document.addEventListener('mousemove', onMouseMove, false)
+		document.addEventListener('mouseup', onMouseUp, false)
+		document.addEventListener('touchmove', onMouseMove, false)
+		node.addEventListener('touchend', onMouseUp, false)
+		node.addEventListener('touchcancel', onMouseUp, false)
 	}
 
-	node.draggable = true
-	node.addEventListener('dragstart', _onDragStart)
+	const onMouseUp = (e) => {
+		document.removeEventListener('mousemove', onMouseMove)
+		document.removeEventListener('mouseup', onMouseUp)
+		document.removeEventListener('touchmove', onMouseMove)
+		node.removeEventListener('touchend', onMouseUp)
+		node.removeEventListener('touchcancel', onMouseUp)
+
+		const doOverlap = doElementsOverlap(area, drag)
+
+		drag.remove()
+
+		setTimeout(() => {
+			if (doOverlap) {
+				onDropInside?.(node)
+			} else {
+				onDropOutside?.(node)
+			}
+		}, 10)
+	}
+
+	observer = new DOMObserver()
+
+	drag = dragImage ? resolveDragImage(dragImage) : node.cloneNode(true)
+	drag.draggable = false
+	drag.id = 'drag-clone'
+	drag.role = 'presentation'
+	drag.style.position = 'absolute'
+	drag.style.zIndex = '1000'
+	drag.style.opacity = '0.7'
+	drag.style.userSelect = 'none'
+	observer.wait(drag, null, { events: [DOMObserver.ADD] }).then(({ node: dnode }) => {
+		const { width, height } = drag.getBoundingClientRect()
+		dragWidth = width
+		dragHeight = height
+	})
+
+	node.addEventListener('mouseover', onMouseOver, false)
+	node.addEventListener('mouseout', onMouseOut, false)
+	node.addEventListener('mousedown', onMouseDown, false)
+	node.addEventListener('touchstart', onMouseDown, false)
 
 	return {
 		destroy() {
-			node.draggable = false
-			node.removeEventListener('dragstart', _onDragStart)
-			node.removeEventListener('dragend', _onDragEnd)
+			observer.clear()
+			node.removeEventListener('mouseover', onMouseOver)
+			node.removeEventListener('mouseout', onMouseOut)
+			node.removeEventListener('mousedown', onMouseDown)
+			node.removeEventListener('touchstart', onMouseDown)
 		},
 	}
 }
