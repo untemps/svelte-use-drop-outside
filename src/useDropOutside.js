@@ -10,7 +10,7 @@ let drag = null
 let dragWidth = 0
 let dragHeight = 0
 
-const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropInside }) => {
+const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropInside, onDragCancel }) => {
 	const area = document.querySelector(areaSelector)
 
 	const onMouseOver = (e) => {
@@ -44,14 +44,20 @@ const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropIn
 		document.addEventListener('mousemove', onMouseMove, false)
 		document.addEventListener('mouseup', onMouseUp, false)
 		document.addEventListener('touchmove', onMouseMove, false)
+		document.addEventListener('keydown', onMouseUp)
 		node.addEventListener('touchend', onMouseUp, false)
 		node.addEventListener('touchcancel', onMouseUp, false)
 	}
 
 	const onMouseUp = (e) => {
+		if (e.type.startsWith('key') && e.key !== 'Escape') {
+			return
+		}
+
 		document.removeEventListener('mousemove', onMouseMove)
 		document.removeEventListener('mouseup', onMouseUp)
 		document.removeEventListener('touchmove', onMouseMove)
+		document.removeEventListener('keydown', onMouseUp)
 		node.removeEventListener('touchend', onMouseUp)
 		node.removeEventListener('touchcancel', onMouseUp)
 
@@ -60,7 +66,9 @@ const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropIn
 		drag.remove()
 
 		setTimeout(() => {
-			if (doOverlap) {
+			if (e.type.startsWith('key')) {
+				onDragCancel?.(node)
+			} else if (doOverlap) {
 				onDropInside?.(node)
 			} else {
 				onDropOutside?.(node)

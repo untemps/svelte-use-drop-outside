@@ -8,6 +8,10 @@
 	const _onDropInside = (node) => {
 		alert(`You\'ve just dropped #${node.id} inside the area`)
 	}
+
+  const _onDragCancel = (node) => {
+    alert(`You\'ve just cancelled the drag of #${node.id}`)
+  }
 </script>
 
 <main>
@@ -19,6 +23,7 @@
 					areaSelector: '.area',
 					onDropOutside: _onDropOutside,
 					onDropInside: _onDropInside,
+					onDragCancel: _onDragCancel,
 				}}
 				class="target"
 			>
