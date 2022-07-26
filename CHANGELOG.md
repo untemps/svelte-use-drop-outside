@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.0.1...v1.1.0) (2022-07-26)
+
+
+### Features
+
+* Add callback for drag cancellation ([#5](https://github.com/untemps/svelte-use-drop-outside/issues/5)) ([1c8d62c](https://github.com/untemps/svelte-use-drop-outside/commit/1c8d62c8836d1333d9e9597785d6dcff7fadad2d))
+
 ## [1.0.1](https://github.com/untemps/svelte-use-drop-outside/compare/v1.0.0...v1.0.1) (2022-07-20)
 
 
