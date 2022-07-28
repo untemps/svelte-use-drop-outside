@@ -1,5 +1,5 @@
 <script>
-	import { useDropOutside } from '../../src'
+	import { useDropOutside } from '@untemps/svelte-use-drop-outside'
 
 	const _onDropOutside = (node) => {
 		alert(`You\'ve just dropped #${node.id} outside the area`)
