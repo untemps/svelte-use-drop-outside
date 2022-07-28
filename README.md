@@ -123,7 +123,7 @@ When pressing the `Escape` key, wherever the dragged element is, it is put back 
 
 By default, the action clones the dragged element and sets its opacity to `0.7`.
 
-Alternately, you may use the `dragImage` prop to customize the images displayed during the drag.
+Alternately, you may use the `dragImage` prop to customize the image displayed during the drag.
 
 The `dragImage` prop may be:
 
