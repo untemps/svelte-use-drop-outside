@@ -14,6 +14,12 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/untemps/svelte-use-drop-outside/deploy?style=for-the-badge)](https://github.com/untemps/svelte-use-drop-outside/actions)
 [![LGTM](https://img.shields.io/lgtm/grade/javascript/github/untemps/svelte-use-drop-outside?style=for-the-badge)](https://lgtm.com/projects/g/untemps/svelte-use-drop-outside/context:javascript)
 
+## Demo
+
+<p align="center">
+    :red_circle:&nbsp;<big><a href="https://svelte-use-drop-outside.vercel.app/" target="_blank" rel="noopener">LIVE DEMO</a></big>&nbsp;:red_circle:
+</p>
+
 ## Installation
 
 ```bash
