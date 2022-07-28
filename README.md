@@ -1,8 +1,11 @@
 <p align="center">
-    <img src="assets/svelte-use-drop-outside.gif" alt="svelte-use-drop-outside"/>
+    <img src="assets/svelte-use-drop-outside.gif" alt="Drop an element outside an area"/>
 </p>
+<h1 align="center">
+    svelte-use-drop-outside
+</h1>
 <p align="center">
-    Svelte action to drop an element outside an area
+    Svelte action to drop an element outside an area and more...
 </p>
 
 ---
@@ -23,7 +26,7 @@ yarn add @untemps/svelte-use-drop-outside
 
 ```svelte
 <script>
-	import { useDropOutside } from '../../src'
+	import { useDropOutside } from '@untemps/svelte-use-drop-outside'
 
 	const _onDropOutside = (node) => {
 		console.log(`You\'ve just dropped #${node.id} outside the area`)
@@ -100,12 +103,12 @@ yarn add @untemps/svelte-use-drop-outside
 
 ## API
 
-| Props                     | Type     | Default | Description                                                              |
-|---------------------------|----------|--------|--------------------------------------------------------------------------|
-| `areaSelector`            | string   | null   | Selector of the element considered as the "inside" area.                 |
-| `onDropOutside`           | function | null   | Callback triggered when the dragged element is dropped outside the area. |
-| `onDropInside`            | function   | null   | Callback triggered when the dragged element is dropped inside the area   |
-| `onDragCancel`            | function   | null  | Callback triggered when the drag is cancelled (Esc key)                  |
+| Props                     | Type                  | Default | Description                                                              |
+|---------------------------|-----------------------|--------|--------------------------------------------------------------------------|
+| `areaSelector`            | string                | null   | Selector of the element considered as the "inside" area.                 |
+| `onDropOutside`           | function              | null   | Callback triggered when the dragged element is dropped outside the area. |
+| `onDropInside`            | function              | null   | Callback triggered when the dragged element is dropped inside the area   |
+| `onDragCancel`            | function              | null   | Callback triggered when the drag is cancelled (Esc key)                  |
 
 ### Area Selector
 
@@ -123,6 +126,86 @@ All callbacks are triggered with the dragged element as first and unique argumen
 const _onDropOutside = (node) => {
   console.log(`You\'ve just dropped #${node.id} outside the area`)
 }
+```
+
+## Recipes
+
+### Switching Container
+
+You may use the action to implement a classic drag and drop container switch using the `onDropInside` callback:
+
+<p align="center">
+    <img src="assets/container-switch.gif" alt="Drag element into another container"/>
+</p>
+
+```svelte
+<script>
+	import { useDropOutside } from '@untemps/svelte-use-drop-outside'
+
+	const _onDropInside = (node) => {
+    const area = document.querySelector('#destination-area')
+		area.appendChild(node)
+	}
+</script>
+
+<main>
+	<div class="container">
+    <div id="origin-area" class="area">
+      <div
+        id="target"
+        use:useDropOutside={{
+					areaSelector: '#destination-area',
+					onDropInside: _onDropInside,
+				}}
+        class="target"
+      >
+        Drag me into the second area
+      </div>
+    </div>
+    <div id="destination-area" class="area"></div>
+	</div>
+</main>
+
+<style>
+	main {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		padding: 1rem;
+		background-color: #617899;
+	}
+
+	.container {
+		max-width: 640px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 3rem;
+	}
+
+	.area {
+		width: 300px;
+		height: 300px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: white;
+		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+	}
+
+	.target {
+		width: 10rem;
+		background-color: black;
+		color: white;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+	}
+</style>
+
 ```
 
 ## Development
