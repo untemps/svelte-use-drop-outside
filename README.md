@@ -103,20 +103,103 @@ yarn add @untemps/svelte-use-drop-outside
 
 ## API
 
-| Props                     | Type                  | Default | Description                                                              |
-|---------------------------|-----------------------|--------|--------------------------------------------------------------------------|
-| `areaSelector`            | string                | null   | Selector of the element considered as the "inside" area.                 |
-| `onDropOutside`           | function              | null   | Callback triggered when the dragged element is dropped outside the area. |
-| `onDropInside`            | function              | null   | Callback triggered when the dragged element is dropped inside the area   |
-| `onDragCancel`            | function              | null   | Callback triggered when the drag is cancelled (Esc key)                  |
+| Props                     | Type                        | Default | Description                                                              |
+|---------------------------|-----------------------------|--------|--------------------------------------------------------------------------|
+| `areaSelector`            | string                      | null   | Selector of the element considered as the "inside" area.                 |
+| `dragImage`            | element or object or string | null   | The image used when the element is dragging.                             |
+| `onDropOutside`           | function                    | null   | Callback triggered when the dragged element is dropped outside the area. |
+| `onDropInside`            | function                    | null   | Callback triggered when the dragged element is dropped inside the area   |
+| `onDragCancel`            | function                    | null   | Callback triggered when the drag is cancelled (Esc key)                  |
 
 ### Area Selector
 
-You can define the DOM element which will be treated as the "inside" area by passing the [selector](https://developer.mozilla.org/fr/docs/Web/API/Document/querySelector) if this element.
+You can define the DOM element which will be treated as the "inside" area by passing the [selector](https://developer.mozilla.org/fr/docs/Web/API/Document/querySelector) of this element.
 
 When dropping the dragged element, the action reconciles the boundaries of this element with the boundaries of the area to assert inside/outside stuff.
 
 When pressing the `Escape` key, wherever the dragged element is, it is put back to its original position.
+
+### Drag Image
+
+By default, the action clones the dragged element and sets its opacity to `0.7`.
+
+Alternately, you may use the `dragImage` prop to customize the images displayed during the drag.
+
+The `dragImage` prop may be:
+
+#### A DOM element such a `<img>` or a `<template>`:
+
+```svelte
+<main>
+	<div class="container">
+		<div class="area">
+			<div
+				id="target"
+				use:useDropOutside={{
+					areaSelector: '.area',
+					dragImage: document.querySelector('#drag-image'),
+				}}
+				class="target"
+			>
+				Drag me outside the white area
+			</div>
+		</div>
+	</div>
+</main>
+<img id="drag-image" src="./assets/drag-image.png" alt="Dragging image" width="48" height="48"/>
+```
+
+#### An object with 3 properties:
+
+| Props    | Description                     |
+|----------|---------------------------------|
+| `src`    | Path of the image.              |
+| `width`  | Width of the image (optional).  |
+| `height` | Height of the image (optional). |
+
+```svelte
+<main>
+	<div class="container">
+		<div class="area">
+			<div
+				id="target"
+				use:useDropOutside={{
+					areaSelector: '.area',
+					dragImage: {
+					    src: './assets/drag-image.png',
+					    width: 48,
+					    height: 48
+					},
+				}}
+				class="target"
+			>
+				Drag me outside the white area
+			</div>
+		</div>
+	</div>
+</main>
+```
+
+#### A string as path of the image:
+
+```svelte
+<main>
+	<div class="container">
+		<div class="area">
+			<div
+				id="target"
+				use:useDropOutside={{
+					areaSelector: '.area',
+					dragImage: './assets/drag-image.png',
+				}}
+				class="target"
+			>
+				Drag me outside the white area
+			</div>
+		</div>
+	</div>
+</main>
+```
 
 ### Callbacks
 
