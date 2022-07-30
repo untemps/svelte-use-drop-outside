@@ -32,68 +32,68 @@ yarn add @untemps/svelte-use-drop-outside
 
 ```svelte
 <script>
-	import { useDropOutside } from '@untemps/svelte-use-drop-outside'
-
-	const _onDropOutside = (node) => {
-		console.log(`You\'ve just dropped #${node.id} outside the area`)
-	}
+    import { useDropOutside } from '@untemps/svelte-use-drop-outside'
+    
+    const _onDropOutside = (node) => {
+        console.log(`You\'ve just dropped #${node.id} outside the area`)
+    }
 </script>
 
 <main>
-	<div class="container">
-		<div class="area">
-			<div
-				id="target"
-				use:useDropOutside={{
-					areaSelector: '.area',
-					onDropOutside: _onDropOutside,
-				}}
-				class="target"
-			>
-				Drag me outside the white area
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="area">
+            <div
+                id="target"
+                use:useDropOutside={{
+                    areaSelector: '.area',
+                    onDropOutside: _onDropOutside,
+                }}
+                class="target"
+            >
+                Drag me outside the white area
+            </div>
+        </div>
+    </div>
 </main>
 
 <style>
-	main {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-		padding: 1rem;
-		background-color: #617899;
-	}
-
-	.container {
-		max-width: 640px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		row-gap: 3rem;
-	}
-
-	.area {
-		width: 300px;
-		height: 300px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: white;
-		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-	}
-
-	.target {
-		width: 10rem;
-		background-color: black;
-		color: white;
-		text-align: center;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 1rem;
-	}
+    main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 1rem;
+        background-color: #617899;
+    }
+    
+    .container {
+        max-width: 640px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 3rem;
+    }
+    
+    .area {
+        width: 300px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    }
+    
+    .target {
+        width: 10rem;
+        background-color: black;
+        color: white;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
 </style>
 ```
 
@@ -127,20 +127,20 @@ The `dragImage` prop may be:
 
 ```svelte
 <main>
-	<div class="container">
-		<div class="area">
-			<div
-				id="target"
-				use:useDropOutside={{
-					areaSelector: '.area',
-					dragImage: document.querySelector('#drag-image'),
-				}}
-				class="target"
-			>
-				Drag me outside the white area
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="area">
+            <div
+                id="target"
+                use:useDropOutside={{
+                    areaSelector: '.area',
+                    dragImage: document.querySelector('#drag-image'),
+                }}
+                class="target"
+            >
+                Drag me outside the white area
+            </div>
+        </div>
+    </div>
 </main>
 <img id="drag-image" src="./assets/drag-image.png" alt="Dragging image" width="48" height="48"/>
 ```
@@ -155,24 +155,24 @@ The `dragImage` prop may be:
 
 ```svelte
 <main>
-	<div class="container">
-		<div class="area">
-			<div
-				id="target"
-				use:useDropOutside={{
-					areaSelector: '.area',
-					dragImage: {
-					    src: './assets/drag-image.png',
-					    width: 48,
-					    height: 48
-					},
-				}}
-				class="target"
-			>
-				Drag me outside the white area
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="area">
+            <div
+                id="target"
+                use:useDropOutside={{
+                    areaSelector: '.area',
+                    dragImage: {
+                        src: './assets/drag-image.png',
+                        width: 48,
+                        height: 48
+                    },
+                }}
+                class="target"
+            >
+                Drag me outside the white area
+            </div>
+        </div>
+    </div>
 </main>
 ```
 
@@ -180,20 +180,20 @@ The `dragImage` prop may be:
 
 ```svelte
 <main>
-	<div class="container">
-		<div class="area">
-			<div
-				id="target"
-				use:useDropOutside={{
-					areaSelector: '.area',
-					dragImage: './assets/drag-image.png',
-				}}
-				class="target"
-			>
-				Drag me outside the white area
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="area">
+            <div
+                id="target"
+                use:useDropOutside={{
+                    areaSelector: '.area',
+                    dragImage: './assets/drag-image.png',
+                }}
+                class="target"
+            >
+                Drag me outside the white area
+            </div>
+        </div>
+    </div>
 </main>
 ```
 
@@ -232,69 +232,69 @@ You may use the action to implement a classic drag and drop container switch usi
 
 ```svelte
 <script>
-	import { useDropOutside } from '@untemps/svelte-use-drop-outside'
-
-	const _onDropInside = (node, area) => {
-		area.appendChild(node)
-	}
+    import { useDropOutside } from '@untemps/svelte-use-drop-outside'
+    
+    const _onDropInside = (node, area) => {
+        area.appendChild(node)
+    }
 </script>
 
 <main>
-	<div class="container">
-    <div id="origin-area" class="area">
-      <div
-        id="target"
-        use:useDropOutside={{
-					areaSelector: '#destination-area',
-					onDropInside: _onDropInside,
-				}}
-        class="target"
-      >
-        Drag me into the second area
-      </div>
+    <div class="container">
+        <div id="origin-area" class="area">
+          <div
+            id="target"
+            use:useDropOutside={{
+                areaSelector: '#destination-area',
+                onDropInside: _onDropInside,
+            }}
+            class="target"
+          >
+            Drag me into the second area
+          </div>
+        </div>
+        <div id="destination-area" class="area"></div>
     </div>
-    <div id="destination-area" class="area"></div>
-	</div>
 </main>
 
 <style>
-	main {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-		padding: 1rem;
-		background-color: #617899;
-	}
-
-	.container {
-		max-width: 640px;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 3rem;
-	}
-
-	.area {
-		width: 300px;
-		height: 300px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: white;
-		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-	}
-
-	.target {
-		width: 10rem;
-		background-color: black;
-		color: white;
-		text-align: center;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 1rem;
-	}
+    main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 1rem;
+        background-color: #617899;
+    }
+    
+    .container {
+        max-width: 640px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 3rem;
+    }
+    
+    .area {
+        width: 300px;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    }
+    
+    .target {
+        width: 10rem;
+        background-color: black;
+        color: white;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
 </style>
 
 ```
