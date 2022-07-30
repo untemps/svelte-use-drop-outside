@@ -67,11 +67,11 @@ const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropIn
 
 		setTimeout(() => {
 			if (e.type.startsWith('key')) {
-				onDragCancel?.(node)
+				onDragCancel?.(node, area)
 			} else if (doOverlap) {
-				onDropInside?.(node)
+				onDropInside?.(node, area)
 			} else {
-				onDropOutside?.(node)
+				onDropOutside?.(node, area)
 			}
 		}, 10)
 	}
