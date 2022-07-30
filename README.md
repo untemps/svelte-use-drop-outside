@@ -37,14 +37,6 @@ yarn add @untemps/svelte-use-drop-outside
 	const _onDropOutside = (node) => {
 		console.log(`You\'ve just dropped #${node.id} outside the area`)
 	}
-
-	const _onDropInside = (node) => {
-		console.log(`You\'ve just dropped #${node.id} inside the area`)
-	}
-	
-	const _onDragCancel = (node) => {
-	    console.log(`You\'ve just cancelled the drag of #${node.id}`)
-	}
 </script>
 
 <main>
@@ -55,8 +47,6 @@ yarn add @untemps/svelte-use-drop-outside
 				use:useDropOutside={{
 					areaSelector: '.area',
 					onDropOutside: _onDropOutside,
-					onDropInside: _onDropInside,
-					onDragCancel: _onDragCancel,
 				}}
 				class="target"
 			>
@@ -209,11 +199,24 @@ The `dragImage` prop may be:
 
 ### Callbacks
 
-All callbacks are triggered with the dragged element as first and unique argument:
+All callbacks are triggered with the following arguments:
+
+| Argument | Description                               |
+|----------|-------------------------------------------|
+| [0]      | Dragged element.                          |
+| [1]      | Element considered as the "inside" area. |
 
 ```javascript
-const _onDropOutside = (node) => {
-  console.log(`You\'ve just dropped #${node.id} outside the area`)
+const _onDropOutside = (node, area) => {
+  console.log(`You\'ve just dropped #${node.id} outside the #${area.id}`)
+}
+
+const _onDropInside = (node, area) => {
+  console.log(`You\'ve just dropped #${node.id} inside the #${area.id}`)
+}
+
+const _onDragCancel = (node, area) => {
+  console.log(`You\'ve just cancelled the drag of #${node.id} against #${area.id} boundaries`)
 }
 ```
 
@@ -231,8 +234,7 @@ You may use the action to implement a classic drag and drop container switch usi
 <script>
 	import { useDropOutside } from '@untemps/svelte-use-drop-outside'
 
-	const _onDropInside = (node) => {
-    const area = document.querySelector('#destination-area')
+	const _onDropInside = (node, area) => {
 		area.appendChild(node)
 	}
 </script>
