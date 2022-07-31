@@ -1,12 +1,12 @@
 <script>
 	import { useDropOutside } from '../../src'
 
-	const _onDropOutside = (node) => {
-		alert(`You\'ve just dropped #${node.id} outside the area`)
+	const _onDropOutside = (node, area) => {
+		alert(`You\'ve just dropped #${node.id} outside #${area.id}`)
 	}
 
-	const _onDropInside = (node) => {
-		alert(`You\'ve just dropped #${node.id} inside the area`)
+	const _onDropInside = (node, area) => {
+		alert(`You\'ve just dropped #${node.id} inside #${area.id}`)
 	}
 
   const _onDragCancel = (node) => {
@@ -16,7 +16,7 @@
 
 <main>
 	<div class="container">
-		<div class="area">
+		<div id="area" class="area">
 			<div
 				id="target"
 				use:useDropOutside={{
@@ -32,9 +32,6 @@
 		</div>
 	</div>
 </main>
-<template id="drag-image">
-  <img src="https://cdn-icons-png.flaticon.com/512/636/636045.png" alt="dragging" width="48" height="48"/>
-</template>
 
 <style>
 	main {
