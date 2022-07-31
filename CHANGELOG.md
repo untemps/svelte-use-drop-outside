@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.1.0...v1.2.0) (2022-07-31)
+
+
+### Features
+
+* Add area to callbacks arguments ([#11](https://github.com/untemps/svelte-use-drop-outside/issues/11)) ([ff77cdc](https://github.com/untemps/svelte-use-drop-outside/commit/ff77cdc1fa03f6d54e9ab339b77ed233371f299e))
+
 # [1.1.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.0.1...v1.1.0) (2022-07-26)
 
 
