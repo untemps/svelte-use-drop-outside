@@ -233,6 +233,7 @@ You may assign a class to the dragged element to customize its display whether i
         opacity: .5;
         background-color: red;
     }
+</style>
 ```
 
 ### Callbacks
