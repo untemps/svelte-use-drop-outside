@@ -21,6 +21,7 @@
 				id="target"
 				use:useDropOutside={{
 					areaSelector: '.area',
+					dragClassName: 'drag',
 					onDropOutside: _onDropOutside,
 					onDropInside: _onDropInside,
 					onDragCancel: _onDragCancel,
@@ -71,4 +72,9 @@
 		justify-content: center;
 		padding: 1rem;
 	}
+
+  :global(.drag) {
+      opacity: .1;
+      background-color: deeppink !important;
+  }
 </style>
