@@ -202,9 +202,7 @@ The `dragImage` prop may be:
 
 You may assign a class to the dragged element to customize its display whether it is a clone of the target element or it is an image by using the `dragClassName` prop.
 
-> Setting this prop, you have to be aware of two issues:
-> - The class has to be global
-> - When dragging a clone of the target element, the class must have precedence over the exising rules either by improving the relevancy of the selector or by suffixing the rules with `!important`
+> Please note the class has to be global
 
 ```svelte
 <main>
@@ -229,7 +227,7 @@ You may assign a class to the dragged element to customize its display whether i
         background-color: black;
     }
     
-    :global(.target.custom-drag) {
+    :global(.custom-drag) {
         opacity: .5;
         background-color: red;
     }
