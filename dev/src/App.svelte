@@ -75,6 +75,6 @@
 
   :global(.drag) {
       opacity: .1;
-      background-color: deeppink !important;
+      background-color: deeppink;
   }
 </style>

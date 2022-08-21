@@ -2,6 +2,7 @@ import { DOMObserver } from '@untemps/dom-observer'
 
 import { resolveDragImage } from './utils/resolveDragImage'
 import { doElementsOverlap } from './utils/doElementsOverlap'
+import { getCSSDeclaration } from './utils/getCSSDeclaration'
 
 import './useDropOutside.css'
 
@@ -87,8 +88,14 @@ const useDropOutside = (
 	drag.draggable = false
 	drag.id = 'drag-clone'
 	drag.role = 'presentation'
-	drag.classList.add('__drag', '__drag-default')
-	!!dragClassName && drag.classList.replace('__drag-default', dragClassName)
+	drag.classList.add('__drag')
+	if (!!dragClassName) {
+		const cssText = getCSSDeclaration(dragClassName, true)
+		if (!!cssText) {
+			drag.style.cssText = cssText
+		}
+	}
+
 	observer.wait(drag, null, { events: [DOMObserver.ADD] }).then(() => {
 		const { width, height } = drag.getBoundingClientRect()
 		dragWidth = width
