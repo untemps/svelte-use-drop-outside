@@ -1,6 +1,6 @@
 {
 	"name": "@untemps/svelte-use-drop-outside",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"author": "Vincent Le Badezet <v.lebadezet@untemps.net>",
 	"license": "MIT",
 	"description": "Svelte action to drop an element outside an area",

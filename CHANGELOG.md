@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.2.0...v1.3.0) (2022-08-23)
+
+
+### Features
+
+* Add new dragClassName prop ([#12](https://github.com/untemps/svelte-use-drop-outside/issues/12)) ([3744468](https://github.com/untemps/svelte-use-drop-outside/commit/3744468d0a85e3018dafd87e53b6f3a33bc30db0))
+
 # [1.2.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.1.0...v1.2.0) (2022-07-31)
 
 
