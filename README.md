@@ -99,13 +99,14 @@ yarn add @untemps/svelte-use-drop-outside
 
 ## API
 
-| Props                     | Type                        | Default | Description                                                              |
-|---------------------------|-----------------------------|--------|--------------------------------------------------------------------------|
-| `areaSelector`            | string                      | null   | Selector of the element considered as the "inside" area.                 |
-| `dragImage`            | element or object or string | null   | The image used when the element is dragging.                             |
-| `onDropOutside`           | function                    | null   | Callback triggered when the dragged element is dropped outside the area. |
-| `onDropInside`            | function                    | null   | Callback triggered when the dragged element is dropped inside the area   |
-| `onDragCancel`            | function                    | null   | Callback triggered when the drag is cancelled (Esc key)                  |
+| Props                 | Type                        | Default            | Description                                                             |
+|-----------------------|-----------------------------|--------------------|-------------------------------------------------------------------------|
+| `areaSelector`        | string                      | null               | Selector of the element considered as the "inside" area.                |
+| `dragImage`           | element or object or string | null               | The image used when the element is dragging.                            |
+| `dragClassName`       | string                      | null               | A class name that will be assigned to the dragged element.           |
+| `onDropOutside`       | function                    | null               | Callback triggered when the dragged element is dropped outside the area. |
+| `onDropInside`        | function                    | null               | Callback triggered when the dragged element is dropped inside the area  |
+| `onDragCancel`        | function                    | null               | Callback triggered when the drag is cancelled (Esc key)                 |
 
 ### Area Selector
 
@@ -117,7 +118,7 @@ When pressing the `Escape` key, wherever the dragged element is, it is put back 
 
 ### Drag Image
 
-By default, the action clones the dragged element and sets its opacity to `0.7`.
+By default, the action clones the target element and sets its opacity to `0.7`.
 
 Alternately, you may use the `dragImage` prop to customize the image displayed during the drag.
 
@@ -195,6 +196,44 @@ The `dragImage` prop may be:
         </div>
     </div>
 </main>
+```
+
+### Drag styles
+
+You may assign a class to the dragged element to customize its display, whether it is a clone of the target element or it is an image, by using the `dragClassName` prop.
+
+The class declaration will be parsed and set to the `style` attribute of the dragged element to avoid priority issues. Thus, you are guaranteed your custom styles override the previous values.
+
+> Please note the class has to be global
+
+```svelte
+<main>
+    <div class="container">
+        <div class="area">
+            <div
+                id="target"
+                use:useDropOutside={{
+                    areaSelector: '.area',
+                    dragClassName: 'custom-drag',
+                }}
+                class="target"
+            >
+                Drag me outside the white area
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    .target {
+        background-color: black;
+    }
+    
+    :global(.custom-drag) {
+        opacity: .5;
+        background-color: red;
+    }
+</style>
 ```
 
 ### Callbacks

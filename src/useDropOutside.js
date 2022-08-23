@@ -2,6 +2,9 @@ import { DOMObserver } from '@untemps/dom-observer'
 
 import { resolveDragImage } from './utils/resolveDragImage'
 import { doElementsOverlap } from './utils/doElementsOverlap'
+import { getCSSDeclaration } from './utils/getCSSDeclaration'
+
+import './useDropOutside.css'
 
 let holdX = 0
 let holdY = 0
@@ -10,7 +13,10 @@ let drag = null
 let dragWidth = 0
 let dragHeight = 0
 
-const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropInside, onDragCancel }) => {
+const useDropOutside = (
+	node,
+	{ areaSelector, dragImage, dragClassName, onDropOutside, onDropInside, onDragCancel }
+) => {
 	const area = document.querySelector(areaSelector)
 
 	const onMouseOver = (e) => {
@@ -82,11 +88,15 @@ const useDropOutside = (node, { areaSelector, dragImage, onDropOutside, onDropIn
 	drag.draggable = false
 	drag.id = 'drag-clone'
 	drag.role = 'presentation'
-	drag.style.position = 'absolute'
-	drag.style.zIndex = '1000'
-	drag.style.opacity = '0.7'
-	drag.style.userSelect = 'none'
-	observer.wait(drag, null, { events: [DOMObserver.ADD] }).then(({ node: dnode }) => {
+	drag.classList.add('__drag')
+	if (!!dragClassName) {
+		const cssText = getCSSDeclaration(dragClassName, true)
+		if (!!cssText) {
+			drag.style.cssText = cssText
+		}
+	}
+
+	observer.wait(drag, null, { events: [DOMObserver.ADD] }).then(() => {
 		const { width, height } = drag.getBoundingClientRect()
 		dragWidth = width
 		dragHeight = height

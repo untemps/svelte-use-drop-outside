@@ -1,0 +1,6 @@
+.__drag {
+    position: absolute;
+    z-index: 999;
+    user-select: none;
+    opacity: .7;
+}
