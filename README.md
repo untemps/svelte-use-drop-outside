@@ -200,7 +200,9 @@ The `dragImage` prop may be:
 
 ### Drag styles
 
-You may assign a class to the dragged element to customize its display whether it is a clone of the target element or it is an image by using the `dragClassName` prop.
+You may assign a class to the dragged element to customize its display, whether it is a clone of the target element or it is an image, by using the `dragClassName` prop.
+
+The class declaration will be parsed and set to the `style` attribute of the dragged element to avoid priority issues. Thus, you are guaranteed your custom styles override the previous values.
 
 > Please note the class has to be global
 
