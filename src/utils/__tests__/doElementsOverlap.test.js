@@ -1,4 +1,3 @@
-import { screen } from '@testing-library/dom'
 import { createElement } from '@untemps/utils/dom/createElement'
 
 import { doElementsOverlap } from '../doElementsOverlap'
@@ -33,7 +32,6 @@ describe('doElementsOverlap', () => {
 		[create({ width: 140, height: 140 }), create({ left: 130, top: 130 }), true],
 		[create({ width: 140, height: 140, left: 250, top: 250 }), create({ left: 130, top: 130 }), false],
 	])('returns overlap status', async (element1, element2, expected) => {
-		screen.debug()
 		expect(doElementsOverlap(element1, element2)).toBe(expected)
 	})
 })
