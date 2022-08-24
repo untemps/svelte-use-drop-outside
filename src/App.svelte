@@ -21,6 +21,7 @@
 				id="target"
 				use:useDropOutside={{
 					areaSelector: '.area',
+					dragClassName: 'drag-custom',
 					onDropOutside: _onDropOutside,
 					onDropInside: _onDropInside,
 					onDragCancel: _onDragCancel,
@@ -74,4 +75,11 @@
 		justify-content: center;
 		padding: 1rem;
 	}
+
+  :global(.drag-custom){
+      transform: rotate(180deg);
+      background-color: #f1b5b5;
+      color: black;
+      opacity: .8;
+  }
 </style>

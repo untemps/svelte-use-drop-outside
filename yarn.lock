@@ -343,10 +343,10 @@
   resolved "https://registry.yarnpkg.com/@untemps/dom-observer/-/dom-observer-2.0.0.tgz#5b86b091f62905a6f18b0280bbf9067f2949716f"
   integrity sha512-oZBj7j9hYSbuveNFvyPLamRfNh15KvGJC5pLGGpWVcO61EzISMESL0wudwP0UZETEu+0WfaJ16rGXtEZHsq+xw==
 
-"@untemps/svelte-use-drop-outside@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@untemps/svelte-use-drop-outside/-/svelte-use-drop-outside-1.1.0.tgz#348ba97a3e5f0e460eb3cc2dcf70c81b49761601"
-  integrity sha512-zL/52JHhiNHwC4WtZkyV6oCgtGoPVnhfgrfoetGFGVtrVSJ2dpateWBeH3Apz142Hd+5XYkOIJUZ4kQPAxrF/w==
+"@untemps/svelte-use-drop-outside@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@untemps/svelte-use-drop-outside/-/svelte-use-drop-outside-1.3.0.tgz#72489acb64a3ed00de072b760c5cffd92aae8603"
+  integrity sha512-dlDInl07/zL6uMxvc1MLqkiZxt6ANtBV1qL65XjFS3uHp6j+UOaXX5XF59HioMsBuEFP6CoHW8EeCeq3/2xv4Q==
   dependencies:
     "@untemps/dom-observer" "^2.0.0"
     "@untemps/utils" "^2.0.0"
