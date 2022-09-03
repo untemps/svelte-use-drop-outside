@@ -85,9 +85,9 @@ const useDropOutside = (
 	observer = new DOMObserver()
 
 	drag = dragImage ? resolveDragImage(dragImage) : node.cloneNode(true)
-	drag.draggable = false
-	drag.id = 'drag-clone'
-	drag.role = 'presentation'
+	drag.setAttribute('draggable', false)
+	drag.setAttribute('id', 'drag')
+	drag.setAttribute('role', 'presentation')
 	drag.classList.add('__drag')
 	if (!!dragClassName) {
 		const cssText = getCSSDeclaration(dragClassName, true)
