@@ -5,11 +5,10 @@
 import { fireEvent, screen } from '@testing-library/dom'
 
 import { createElement } from '@untemps/utils/dom/createElement'
-import { removeElement } from '@untemps/utils/dom/removeElement'
 import { getElement } from '@untemps/utils/dom/getElement'
 import { standby } from '@untemps/utils/async/standby'
 
-import useDropOutside from '../useDropOutside'
+import useDropOutside, { DragAndDrop } from '../useDropOutside'
 
 const areaSize = 200
 const targetSize = 100
@@ -82,6 +81,8 @@ describe('useDropOutside', () => {
 		document.body.innerHTML = ''
 
 		useReturn?.destroy()
+
+		DragAndDrop.destroy()
 	})
 
 	describe('init', () => {
@@ -164,14 +165,12 @@ describe('useDropOutside', () => {
 		})
 
 		it('Sets custom class to dragged element', async () => {
-			console.log('===')
 			useReturn = useDropOutside(target, { ...options, dragClassName: 'gag' })
 			fireEvent.mouseDown(target)
 			fireEvent.mouseMove(document)
 			screen.debug()
 			expect(screen.getByRole('presentation')).toBeInTheDocument()
 			expect(screen.getByRole('presentation')).toHaveStyle('background-color: black;')
-			console.log('===')
 		})
 
 		it('Sets unknown custom class to dragged element', async () => {
@@ -188,6 +187,15 @@ describe('useDropOutside', () => {
 			fireEvent.mouseDown(target)
 			fireEvent.mouseMove(document)
 			expect(screen.getByAltText('bar')).toBeInTheDocument()
+		})
+
+		it('Stores and clears instances in static class property', async () => {
+			useDropOutside(target, options)
+			useDropOutside(target, options)
+			useDropOutside(target, options)
+			expect(DragAndDrop.instances).toHaveLength(3)
+			DragAndDrop.destroy()
+			expect(DragAndDrop.instances).toHaveLength(0)
 		})
 	})
 })
