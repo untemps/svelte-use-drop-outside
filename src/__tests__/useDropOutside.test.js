@@ -8,7 +8,8 @@ import { createElement } from '@untemps/utils/dom/createElement'
 import { getElement } from '@untemps/utils/dom/getElement'
 import { standby } from '@untemps/utils/async/standby'
 
-import useDropOutside, { DragAndDrop } from '../useDropOutside'
+import DragAndDrop from '../DragAndDrop'
+import useDropOutside from '../useDropOutside'
 
 const areaSize = 200
 const targetSize = 100
