@@ -120,8 +120,8 @@ export class DragAndDrop {
 	}
 
 	#onMouseMove(e) {
-		if (!this.#drag.parentNode) {
-			this.#target.parentNode.appendChild(this.#drag)
+		if (this.#drag.style.visibility === 'hidden') {
+			this.#drag.style.visibility = 'visible'
 		}
 
 		const pageX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX
@@ -137,6 +137,7 @@ export class DragAndDrop {
 		this.#holdX = clientX - this.#target.getBoundingClientRect().left
 		this.#holdY = clientY - this.#target.getBoundingClientRect().top
 
+		this.#drag.style.visibility = 'hidden'
 		this.#drag.style.cursor = 'grabbing'
 
 		this.#boundMouseMoveHandler = this.#onMouseMove.bind(this)
@@ -148,6 +149,8 @@ export class DragAndDrop {
 		document.addEventListener('keydown', this.#boundMouseUpHandler)
 		this.#target.addEventListener('touchend', this.#boundMouseUpHandler, false)
 		this.#target.addEventListener('touchcancel', this.#boundMouseUpHandler, false)
+
+		this.#target.parentNode.appendChild(this.#drag)
 	}
 
 	#onMouseUp(e) {

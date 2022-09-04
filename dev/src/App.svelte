@@ -27,17 +27,18 @@
 		node.remove()
 	}
 
-	const _onDropInside = (node, area) => {
-
+	const _onDropInside = () => {
+    console.log('Dropped inside!')
 	}
 
-  const _onDragCancel = (node) => {
-
+  const _onDragCancel = () => {
+    console.log('Drag cancelled!')
   }
 </script>
 
 <main>
 	<div class="container">
+    <p class="instruction">Drop the color slots outside the white area to delete them</p>
 		<div id="area" class="area">
       <ul class="slot-list">
         {#each colors as color, index}
@@ -68,8 +69,16 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		row-gap: 3rem;
+		row-gap: 0.5rem;
 	}
+
+  .instruction {
+      margin: 0;
+      padding: 0;
+      color: white;
+      font-family: Georgia,serif;
+      width: 300px;
+  }
 
 	.area {
 		width: 300px;
