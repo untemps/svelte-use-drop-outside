@@ -4,7 +4,7 @@ const useDropOutside = (
 	node,
 	{ areaSelector, dragImage, dragClassName, onDropOutside, onDropInside, onDragCancel }
 ) => {
-	const dragAndDrop = new DragAndDrop(
+	const instance = new DragAndDrop(
 		node,
 		areaSelector,
 		dragImage,
@@ -15,7 +15,7 @@ const useDropOutside = (
 	)
 
 	return {
-		destroy: () => dragAndDrop.destroy(),
+		destroy: () => instance.destroy(),
 	}
 }
 
