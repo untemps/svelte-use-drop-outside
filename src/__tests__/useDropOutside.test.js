@@ -6,7 +6,6 @@ import { fireEvent, screen } from '@testing-library/dom'
 
 import { createElement } from '@untemps/utils/dom/createElement'
 import { getElement } from '@untemps/utils/dom/getElement'
-import { standby } from '@untemps/utils/async/standby'
 
 import DragAndDrop from '../DragAndDrop'
 import useDropOutside from '../useDropOutside'
@@ -115,13 +114,11 @@ describe('useDropOutside', () => {
 			const drag = getElement('#drag')
 			expect(drag).toBeInTheDocument()
 			fireEvent.mouseUp(document)
-			await standby()
-			fireEvent.animationEnd(screen.getByRole('presentation'))
 			expect(drag).not.toBeInTheDocument()
 		})
 
 		it('Triggers onDropInside callback', async () => {
-			useReturn = useDropOutside(target, options)
+			useReturn = useDropOutside(target, { ...options, animate: true })
 			fireEvent.touchStart(target, { targetTouches: [{ pageX: 10, pageY: 10 }] })
 			fireEvent.touchMove(document, { targetTouches: [{ pageX: 10, pageY: 10 }] })
 			fireEvent.touchMove(document, { targetTouches: [{ pageX: 10, pageY: 10 }] }) // Duplicate on purpose
@@ -135,7 +132,6 @@ describe('useDropOutside', () => {
 				bottom: targetSize,
 			})
 			fireEvent.mouseUp(document)
-			await standby()
 			fireEvent.animationEnd(screen.getByRole('presentation'))
 			expect(onDropInside).toHaveBeenCalled()
 		})
@@ -154,17 +150,15 @@ describe('useDropOutside', () => {
 				bottom: areaSize + 10 + targetSize,
 			})
 			fireEvent.mouseUp(document)
-			await standby()
 			expect(onDropOutside).toHaveBeenCalled()
 		})
 
 		it('Triggers onDragCancel callback', async () => {
-			useReturn = useDropOutside(target, options)
+			useReturn = useDropOutside(target, { ...options, animate: true })
 			fireEvent.mouseDown(target)
 			fireEvent.mouseMove(document)
 			fireEvent.keyDown(document, { key: 'A', code: 'A' })
 			fireEvent.keyDown(document, { key: 'Escape', code: 'Esc' })
-			await standby()
 			fireEvent.animationEnd(screen.getByRole('presentation'))
 			expect(onDragCancel).toHaveBeenCalled()
 		})

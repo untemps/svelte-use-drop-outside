@@ -11,7 +11,9 @@ class DragAndDrop {
 
 	#target = null
 	#dragImage = null
+	#animate = null
 	#dragClassName = null
+	#animateOptions = null
 	#onDropOutside = null
 	#onDropInside = null
 	#onDragCancel = null
@@ -37,10 +39,22 @@ class DragAndDrop {
 		DragAndDrop.instances = []
 	}
 
-	constructor(target, areaSelector, dragImage, dragClassName, onDropOutside, onDropInside, onDragCancel) {
+	constructor(
+		target,
+		areaSelector,
+		dragImage,
+		dragClassName,
+		animate,
+		animateOptions,
+		onDropOutside,
+		onDropInside,
+		onDragCancel
+	) {
 		this.#target = target
 		this.#dragImage = dragImage
 		this.#dragClassName = dragClassName
+		this.#animate = animate || false
+		this.#animateOptions = { duration: 0.2, timingFunction: 'ease', ...(animateOptions || {}) }
 		this.#onDropOutside = onDropOutside
 		this.#onDropInside = onDropInside
 		this.#onDragCancel = onDragCancel
@@ -93,18 +107,23 @@ class DragAndDrop {
 	}
 
 	#animateBack(callback) {
-		this.#drag.style.setProperty('--origin-x', this.#target.getBoundingClientRect().left + 'px')
-		this.#drag.style.setProperty('--origin-y', this.#target.getBoundingClientRect().top + 'px')
-		this.#drag.style.animation = 'move .2s ease'
-		this.#drag.addEventListener(
-			'animationend',
-			() => {
-				this.#drag.style.animation = 'none'
-				this.#drag.remove()
-				callback?.(this.#target, this.#area)
-			},
-			false
-		)
+		if (this.#animate) {
+			this.#drag.style.setProperty('--origin-x', this.#target.getBoundingClientRect().left + 'px')
+			this.#drag.style.setProperty('--origin-y', this.#target.getBoundingClientRect().top + 'px')
+			this.#drag.style.animation = `move ${this.#animateOptions.duration}s ${this.#animateOptions.timingFunction}`
+			this.#drag.addEventListener(
+				'animationend',
+				() => {
+					this.#drag.style.animation = 'none'
+					this.#drag.remove()
+					callback?.(this.#target, this.#area)
+				},
+				false
+			)
+		} else {
+			this.#drag.remove()
+			callback?.(this.#target, this.#area)
+		}
 	}
 
 	#onMouseOver(e) {
@@ -166,16 +185,14 @@ class DragAndDrop {
 
 		const doOverlap = doElementsOverlap(this.#area, this.#drag)
 
-		setTimeout(() => {
-			if (e.type.startsWith('key')) {
-				this.#animateBack(this.#onDragCancel)
-			} else if (doOverlap) {
-				this.#animateBack(this.#onDropInside)
-			} else {
-				this.#drag.remove()
-				this.#onDropOutside?.(this.#target, this.#area)
-			}
-		}, 10)
+		if (e.type.startsWith('key')) {
+			this.#animateBack(this.#onDragCancel)
+		} else if (doOverlap) {
+			this.#animateBack(this.#onDropInside)
+		} else {
+			this.#drag.remove()
+			this.#onDropOutside?.(this.#target, this.#area)
+		}
 	}
 }
 
