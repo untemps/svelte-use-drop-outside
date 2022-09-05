@@ -100,14 +100,16 @@ yarn add @untemps/svelte-use-drop-outside
 
 ## API
 
-| Props                 | Type                        | Default            | Description                                                             |
-|-----------------------|-----------------------------|--------------------|-------------------------------------------------------------------------|
-| `areaSelector`        | string                      | null               | Selector of the element considered as the "inside" area.                |
-| `dragImage`           | element or object or string | null               | The image used when the element is dragging.                            |
-| `dragClassName`       | string                      | null               | A class name that will be assigned to the dragged element.           |
-| `onDropOutside`       | function                    | null               | Callback triggered when the dragged element is dropped outside the area. |
-| `onDropInside`        | function                    | null               | Callback triggered when the dragged element is dropped inside the area  |
-| `onDragCancel`        | function                    | null               | Callback triggered when the drag is cancelled (Esc key)                 |
+| Props            | Type                        | Default                                  | Description                                                                            |
+|------------------|-----------------------------|------------------------------------------|----------------------------------------------------------------------------------------|
+| `areaSelector`   | string                      | null                                     | Selector of the element considered as the "inside" area.                               |
+| `dragImage`      | element or object or string | null                                     | The image used when the element is dragging.                                           |
+| `dragClassName`  | string                      | null                                     | A class name that will be assigned to the dragged element.                             |
+| `animate`        | boolean                     | false                                    | A flag to enable animation back.                                                       |
+| `animateOptions` | object                      | { duration: .2, timingFunction: 'ease' } | Optional options for the animation back (see [Animation Options](#animation-options)). |
+| `onDropOutside`  | function                    | null                                     | Callback triggered when the dragged element is dropped outside the area.               |
+| `onDropInside`   | function                    | null                                     | Callback triggered when the dragged element is dropped inside the area                 |
+| `onDragCancel`   | function                    | null                                     | Callback triggered when the drag is cancelled (Esc key)                                |
 
 ### Area Selector
 
@@ -237,13 +239,28 @@ The class declaration will be parsed and set to the `style` attribute of the dra
 </style>
 ```
 
+### Animation
+
+By default, when the dragged element is dropped inside the area or if the drag is cancelled, the dragged element is plainly removed.
+
+When setting the `animate` to `true`, when those events happen, the dragged element is smoothly moved back to its original position.
+
+#### Animation Options
+
+The animation can be configured through the `animateOptions` prop:
+
+| Argument       | Type   | Default | Description                                                                                                                                               |
+|----------------|--------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| duration       | number | .2      | Duration of the animation (in seconds).                                                                                                                   |
+| timingFunction | string | 'ease'  | Function that defines the animation effect (see [animation-timing-function](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)). |
+
 ### Callbacks
 
 All callbacks are triggered with the following arguments:
 
-| Argument | Description                               |
-|----------|-------------------------------------------|
-| [0]      | Dragged element.                          |
+| Argument | Description                              |
+|----------|------------------------------------------|
+| [0]      | Dragged element.                         |
 | [1]      | Element considered as the "inside" area. |
 
 ```javascript
