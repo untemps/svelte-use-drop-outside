@@ -1,35 +1,55 @@
 <script>
 	import { useDropOutside } from '../../src'
 
+  const colors = [
+    '#865C54',
+    '#8F5447',
+    '#A65846',
+    '#A9715E',
+    '#AD8C72',
+    '#C2B091',
+    '#172B41',
+    '#32465C',
+    '#617899',
+    '#9BA2BC',
+    '#847999',
+    '#50526A',
+    '#8B8C6B',
+    '#97A847',
+    '#5B652C',
+    '#6A6A40',
+    '#F2D9BF',
+    '#F5BAAE',
+    '#F1A191',
+  ]
+
 	const _onDropOutside = (node, area) => {
-		alert(`You\'ve just dropped #${node.id} outside #${area.id}`)
+		node.remove()
 	}
 
-	const _onDropInside = (node, area) => {
-		alert(`You\'ve just dropped #${node.id} inside #${area.id}`)
+	const _onDropInside = () => {
+    console.log('Dropped inside!')
 	}
 
-  const _onDragCancel = (node) => {
-    alert(`You\'ve just cancelled the drag of #${node.id}`)
+  const _onDragCancel = () => {
+    console.log('Drag cancelled!')
   }
 </script>
 
 <main>
 	<div class="container">
+    <p class="instruction">Drop the color slots outside the white area to delete them</p>
 		<div id="area" class="area">
-			<div
-				id="target"
-				use:useDropOutside={{
-					areaSelector: '.area',
-					dragClassName: 'drag',
-					onDropOutside: _onDropOutside,
-					onDropInside: _onDropInside,
-					onDragCancel: _onDragCancel,
-				}}
-				class="target"
-			>
-				Drag me outside the white area
-			</div>
+      <ul class="slot-list">
+        {#each colors as color, index}
+          <li use:useDropOutside={{
+            areaSelector: '.area',
+            onDropOutside: _onDropOutside,
+            onDropInside: _onDropInside,
+            onDragCancel: _onDragCancel,
+          }} style={`background-color: ${color}`} class="slot"></li>
+        {/each}
+      </ul>
 		</div>
 	</div>
 </main>
@@ -49,8 +69,16 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		row-gap: 3rem;
+		row-gap: 0.5rem;
 	}
+
+  .instruction {
+      margin: 0;
+      padding: 0;
+      color: white;
+      font-family: Georgia,serif;
+      width: 300px;
+  }
 
 	.area {
 		width: 300px;
@@ -62,16 +90,25 @@
 		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 	}
 
-	.target {
-		width: 10rem;
-		background-color: black;
-		color: white;
-		text-align: center;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 1rem;
-	}
+  .slot-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 1rem;
+      align-items: center;
+      justify-items: center;
+  }
+
+  .slot {
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      padding: 0;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+  }
 
   :global(.drag) {
       opacity: .5;
