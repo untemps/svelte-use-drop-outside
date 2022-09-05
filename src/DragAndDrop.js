@@ -92,6 +92,21 @@ class DragAndDrop {
 		this.#observer = null
 	}
 
+	#animateBack(callback) {
+		this.#drag.style.setProperty('--origin-x', this.#target.getBoundingClientRect().left + 'px')
+		this.#drag.style.setProperty('--origin-y', this.#target.getBoundingClientRect().top + 'px')
+		this.#drag.style.animation = 'move .2s ease'
+		this.#drag.addEventListener(
+			'animationend',
+			() => {
+				this.#drag.style.animation = 'none'
+				this.#drag.remove()
+				callback?.(this.#target, this.#area)
+			},
+			false
+		)
+	}
+
 	#onMouseOver(e) {
 		e.target.style.cursor = 'grab'
 	}
@@ -151,14 +166,13 @@ class DragAndDrop {
 
 		const doOverlap = doElementsOverlap(this.#area, this.#drag)
 
-		this.#drag.remove()
-
 		setTimeout(() => {
 			if (e.type.startsWith('key')) {
-				this.#onDragCancel?.(this.#target, this.#area)
+				this.#animateBack(this.#onDragCancel)
 			} else if (doOverlap) {
-				this.#onDropInside?.(this.#target, this.#area)
+				this.#animateBack(this.#onDropInside)
 			} else {
+				this.#drag.remove()
 				this.#onDropOutside?.(this.#target, this.#area)
 			}
 		}, 10)

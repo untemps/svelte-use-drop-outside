@@ -115,6 +115,8 @@ describe('useDropOutside', () => {
 			const drag = getElement('#drag')
 			expect(drag).toBeInTheDocument()
 			fireEvent.mouseUp(document)
+			await standby()
+			fireEvent.animationEnd(screen.getByRole('presentation'))
 			expect(drag).not.toBeInTheDocument()
 		})
 
@@ -134,6 +136,7 @@ describe('useDropOutside', () => {
 			})
 			fireEvent.mouseUp(document)
 			await standby()
+			fireEvent.animationEnd(screen.getByRole('presentation'))
 			expect(onDropInside).toHaveBeenCalled()
 		})
 
@@ -162,6 +165,7 @@ describe('useDropOutside', () => {
 			fireEvent.keyDown(document, { key: 'A', code: 'A' })
 			fireEvent.keyDown(document, { key: 'Escape', code: 'Esc' })
 			await standby()
+			fireEvent.animationEnd(screen.getByRole('presentation'))
 			expect(onDragCancel).toHaveBeenCalled()
 		})
 
