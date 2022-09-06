@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.3.0...v1.4.0) (2022-09-06)
+
+
+### Features
+
+* Animate drag cancellation and inside drop back ([#16](https://github.com/untemps/svelte-use-drop-outside/issues/16)) ([1195df8](https://github.com/untemps/svelte-use-drop-outside/commit/1195df83afddf68eef0cdd0261ee9db029471ac1))
+
 # [1.3.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.2.0...v1.3.0) (2022-08-23)
 
 
