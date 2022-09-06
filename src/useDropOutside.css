@@ -3,4 +3,14 @@
     z-index: 999;
     user-select: none;
     opacity: .7;
+
+    --origin-x: 0px;
+    --origin-y: 0px;
+}
+
+@keyframes move {
+    100% {
+        left: var(--origin-x);
+        top: var(--origin-y);
+    }
 }

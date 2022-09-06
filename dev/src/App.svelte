@@ -44,6 +44,10 @@
         {#each colors as color, index}
           <li use:useDropOutside={{
             areaSelector: '.area',
+            animate: true,
+            animateOptions: {
+              timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+            },
             onDropOutside: _onDropOutside,
             onDropInside: _onDropInside,
             onDragCancel: _onDragCancel,
