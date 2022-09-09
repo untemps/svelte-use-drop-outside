@@ -1,41 +1,40 @@
 <script>
 	import { useDropOutside } from '@untemps/svelte-use-drop-outside'
 
-	const _onDropOutside = (node) => {
-		alert(`You\'ve just dropped #${node.id} outside the area`)
+	const colors = [
+		'#865C54',
+		'#8F5447',
+		'#A65846',
+		'#A9715E',
+		'#AD8C72',
+		'#C2B091',
+		'#172B41',
+		'#32465C',
+		'#617899',
+		'#9BA2BC',
+		'#847999',
+		'#50526A',
+		'#8B8C6B',
+		'#97A847',
+		'#5B652C',
+		'#6A6A40',
+		'#F2D9BF',
+		'#F5BAAE',
+		'#F1A191',
+	]
+
+	const _onDropOutside = (node, area) => {
+		node.remove()
 	}
 
-	const _onDropInside = (node) => {
-		alert(`You\'ve just dropped #${node.id} inside the area`)
+	const _onDropInside = () => {
+		console.log('Dropped inside!')
 	}
 
-  const _onDragCancel = (node) => {
-    alert(`You\'ve just cancelled the drag of #${node.id}`)
-  }
+	const _onDragCancel = () => {
+		console.log('Drag cancelled!')
+	}
 </script>
-
-<main>
-	<div class="container">
-		<div class="area">
-			<div
-				id="target"
-				use:useDropOutside={{
-					areaSelector: '.area',
-					dragClassName: 'drag-custom',
-					onDropOutside: _onDropOutside,
-					onDropInside: _onDropInside,
-					onDragCancel: _onDragCancel,
-				}}
-				class="target"
-			>
-				Drag me outside the white area
-			</div>
-		</div>
-	</div>
-</main>
-<template id="drag-image">
-  <img src="https://cdn-icons-png.flaticon.com/512/636/636045.png" alt="dragging" width="48" height="48"/>
-</template>
 
 <style>
 	main {
@@ -51,8 +50,16 @@
 		max-width: 640px;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		row-gap: 3rem;
+		align-items: flex-end;
+      row-gap: 1rem;
+	}
+
+	.instruction {
+		margin: 0;
+		padding: 0;
+		color: white;
+		font-family: Georgia, serif;
+		width: 300px;
 	}
 
 	.area {
@@ -65,21 +72,48 @@
 		box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 	}
 
-	.target {
-		width: 10rem;
-		background-color: black;
-		color: white;
-		text-align: center;
-		display: flex;
+	.slot-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		grid-gap: 1rem;
 		align-items: center;
-		justify-content: center;
-		padding: 1rem;
+		justify-items: center;
 	}
 
-  :global(.drag-custom){
-      transform: rotate(180deg);
-      background-color: #f1b5b5;
-      color: black;
-      opacity: .8;
-  }
+	.slot {
+		width: 24px;
+		height: 24px;
+		margin: 0;
+		padding: 0;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		border-radius: 50%;
+	}
 </style>
+
+<main>
+	<div class="container">
+		<p class="instruction">Drop the color slots outside the white area</p>
+		<div id="area" class="area">
+			<ul class="slot-list">
+				{#each colors as color, index}
+					<li
+						use:useDropOutside={{
+							areaSelector: '.area',
+							animate: true,
+							animateOptions: {
+								timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+							},
+							onDropOutside: _onDropOutside,
+							onDropInside: _onDropInside,
+							onDragCancel: _onDragCancel,
+						}}
+						style={`background-color: ${color}`}
+						class="slot" />
+				{/each}
+			</ul>
+		</div>
+	</div>
+</main>

@@ -343,10 +343,10 @@
   resolved "https://registry.yarnpkg.com/@untemps/dom-observer/-/dom-observer-2.0.0.tgz#5b86b091f62905a6f18b0280bbf9067f2949716f"
   integrity sha512-oZBj7j9hYSbuveNFvyPLamRfNh15KvGJC5pLGGpWVcO61EzISMESL0wudwP0UZETEu+0WfaJ16rGXtEZHsq+xw==
 
-"@untemps/svelte-use-drop-outside@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@untemps/svelte-use-drop-outside/-/svelte-use-drop-outside-1.3.0.tgz#72489acb64a3ed00de072b760c5cffd92aae8603"
-  integrity sha512-dlDInl07/zL6uMxvc1MLqkiZxt6ANtBV1qL65XjFS3uHp6j+UOaXX5XF59HioMsBuEFP6CoHW8EeCeq3/2xv4Q==
+"@untemps/svelte-use-drop-outside@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@untemps/svelte-use-drop-outside/-/svelte-use-drop-outside-1.4.0.tgz#93ef4b5379c0dad06176ddb3d57bd35f37fd3725"
+  integrity sha512-yHAMtUTw8BAd2xcPAkGTHijeAfzIlGrT5YeAzkbkcy+/3wV9gtETqOIJhM5C3AeCHWjQO9Q8gLsVMFZuCdMTKg==
   dependencies:
     "@untemps/dom-observer" "^2.0.0"
     "@untemps/utils" "^2.0.0"
@@ -1312,6 +1312,11 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.0.tgz#f1f061de8f6a4bf022892e2d128234fb98302972"
   integrity sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw==
+
+prettier-plugin-svelte@^2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-svelte/-/prettier-plugin-svelte-2.7.0.tgz#ecfa4fe824238a4466a3497df1a96d15cf43cabb"
+  integrity sha512-fQhhZICprZot2IqEyoiUYLTRdumULGRvw0o4dzl5jt0jfzVWdGqeYW27QTWAeXhoupEZJULmNoH3ueJwUWFLIA==
 
 prettier@^2.5.1:
   version "2.7.1"

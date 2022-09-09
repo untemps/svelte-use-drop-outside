@@ -63,9 +63,9 @@ var app = (function () {
     function children(element) {
         return Array.from(element.childNodes);
     }
-    function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
+    function custom_event(type, detail, bubbles = false) {
         const e = document.createEvent('CustomEvent');
-        e.initCustomEvent(type, bubbles, cancelable, detail);
+        e.initCustomEvent(type, bubbles, false, detail);
         return e;
     }
 
@@ -89,40 +89,22 @@ var app = (function () {
     function add_render_callback(fn) {
         render_callbacks.push(fn);
     }
-    // flush() calls callbacks in this order:
-    // 1. All beforeUpdate callbacks, in order: parents before children
-    // 2. All bind:this callbacks, in reverse order: children before parents.
-    // 3. All afterUpdate callbacks, in order: parents before children. EXCEPT
-    //    for afterUpdates called during the initial onMount, which are called in
-    //    reverse order: children before parents.
-    // Since callbacks might update component values, which could trigger another
-    // call to flush(), the following steps guard against this:
-    // 1. During beforeUpdate, any updated components will be added to the
-    //    dirty_components array and will cause a reentrant call to flush(). Because
-    //    the flush index is kept outside the function, the reentrant call will pick
-    //    up where the earlier call left off and go through all dirty components. The
-    //    current_component value is saved and restored so that the reentrant call will
-    //    not interfere with the "parent" flush() call.
-    // 2. bind:this callbacks cannot trigger new flush() calls.
-    // 3. During afterUpdate, any updated components will NOT have their afterUpdate
-    //    callback called a second time; the seen_callbacks set, outside the flush()
-    //    function, guarantees this behavior.
+    let flushing = false;
     const seen_callbacks = new Set();
-    let flushidx = 0; // Do *not* move this inside the flush() function
     function flush() {
-        const saved_component = current_component;
+        if (flushing)
+            return;
+        flushing = true;
         do {
             // first, call beforeUpdate functions
             // and update components
-            while (flushidx < dirty_components.length) {
-                const component = dirty_components[flushidx];
-                flushidx++;
+            for (let i = 0; i < dirty_components.length; i += 1) {
+                const component = dirty_components[i];
                 set_current_component(component);
                 update(component.$$);
             }
             set_current_component(null);
             dirty_components.length = 0;
-            flushidx = 0;
             while (binding_callbacks.length)
                 binding_callbacks.pop()();
             // then, once components are updated, call
@@ -142,8 +124,8 @@ var app = (function () {
             flush_callbacks.pop()();
         }
         update_scheduled = false;
+        flushing = false;
         seen_callbacks.clear();
-        set_current_component(saved_component);
     }
     function update($$) {
         if ($$.fragment !== null) {
@@ -295,7 +277,7 @@ var app = (function () {
     }
 
     function dispatch_dev(type, detail) {
-        document.dispatchEvent(custom_event(type, Object.assign({ version: '3.49.0' }, detail), { bubbles: true }));
+        document.dispatchEvent(custom_event(type, Object.assign({ version: '3.44.0' }, detail), true));
     }
     function append_dev(target, node) {
         dispatch_dev('SvelteDOMInsert', { target, node });
@@ -352,9 +334,264 @@ var app = (function () {
         $inject_state() { }
     }
 
-    var e=function(e,t){(null==t||t>e.length)&&(t=e.length);for(var n=0,r=new Array(t);n<t;n++)r[n]=e[n];return r},t=function(t){if(Array.isArray(t))return e(t)},n=function(t,n){if(t){if("string"==typeof t)return e(t,n);var r=Object.prototype.toString.call(t).slice(8,-1);return "Object"===r&&t.constructor&&(r=t.constructor.name),"Map"===r||"Set"===r?Array.from(t):"Arguments"===r||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)?e(t,n):void 0}},r=function(e){return t(e)||function(e){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(e))return Array.from(e)}(e)||n(e)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}()};function o(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r);}}var i=function(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e},s=function(e){return 1===(null==e?void 0:e.nodeType)};function a(e,t){var n;if("undefined"==typeof Symbol||null==e[Symbol.iterator]){if(Array.isArray(e)||(n=function(e,t){if(e){if("string"==typeof e)return u(e,t);var n=Object.prototype.toString.call(e).slice(8,-1);return "Object"===n&&e.constructor&&(n=e.constructor.name),"Map"===n||"Set"===n?Array.from(e):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?u(e,t):void 0}}(e))||t&&e&&"number"==typeof e.length){n&&(e=n);var r=0,o=function(){};return {s:o,n:function(){return r>=e.length?{done:!0}:{done:!1,value:e[r++]}},e:function(e){throw e},f:o}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var i,s=!0,a=!1;return {s:function(){n=e[Symbol.iterator]();},n:function(){var e=n.next();return s=e.done,e},e:function(e){a=!0,i=e;},f:function(){try{s||null==n.return||n.return();}finally{if(a)throw i}}}}function u(e,t){(null==t||t>e.length)&&(t=e.length);for(var n=0,r=new Array(t);n<t;n++)r[n]=e[n];return r}var d=function(){function e(){((function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}))(this,e),i(this,"_observer",null);}return function(e,t,n){t&&o(e.prototype,t),n&&o(e,n);}(e,[{key:"wait",value:function(t){var n=this,o=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{},u=i.events,d=void 0===u?e.EVENTS:u,l=i.timeout,h=void 0===l?0:l,c=i.attributeFilter,g=void 0===c?void 0:c,v=i.onError,m=void 0===v?void 0:v;return this.clear(),new Promise((function(i,u){var l=s(t)?t:document.querySelector(t);l&&d.includes(e.EXIST)&&(o?o(l,e.EXIST):i({node:l,event:e.EXIST})),h>0&&(n._timeout=setTimeout((function(){n.clear();var e=new Error("[TIMEOUT]: Element ".concat(t," cannot be found after ").concat(h,"ms"));o?null==m||m(e):u(e);}),h)),n._observer=new MutationObserver((function(n){n.forEach((function(n){var u,l=n.type,h=n.target,c=n.addedNodes,g=n.removedNodes,v=n.attributeName,m=n.oldValue;if("childList"===l&&(d.includes(e.ADD)||d.includes(e.REMOVE))){var b,f=a([].concat(r(d.includes(e.ADD)?Array.from(c):[]),r(d.includes(e.REMOVE)?Array.from(g):[])));try{for(f.s();!(b=f.n()).done;){var y,p=b.value;(p===t||!s(t)&&null!==(y=p.matches)&&void 0!==y&&y.call(p,t))&&(o?o(p,Array.from(c).includes(p)?e.ADD:e.REMOVE):i({node:p,event:Array.from(c).includes(p)?e.ADD:e.REMOVE}));}}catch(e){f.e(e);}finally{f.f();}}"attributes"===l&&d.includes(e.CHANGE)&&(h===t||!s(t)&&null!==(u=h.matches)&&void 0!==u&&u.call(h,t))&&(o?o(h,e.CHANGE,{attributeName:v,oldValue:m}):i({node:h,event:e.CHANGE,options:{attributeName:v,oldValue:m}}));}));})),n._observer.observe(document.documentElement,{subtree:!0,childList:d.includes(e.ADD)||d.includes(e.REMOVE),attributes:d.includes(e.CHANGE),attributeOldValue:d.includes(e.CHANGE),attributeFilter:g});}))}},{key:"clear",value:function(){var e;null===(e=this._observer)||void 0===e||e.disconnect(),clearTimeout(this._timeout);}}]),e}();i(d,"EXIST","DOMObserver_exist"),i(d,"ADD","DOMObserver_add"),i(d,"REMOVE","DOMObserver_remove"),i(d,"CHANGE","DOMObserver_change"),i(d,"EVENTS",[d.EXIST,d.ADD,d.REMOVE,d.CHANGE]);const l=e=>{if(e){if(function(e){return 1===(null==e?void 0:e.nodeType)}(e))return e;if(e.src||function(e){return "string"==typeof e||"[object String]"===Object.prototype.toString.call(e)}(e)){const t=new Image;return t.src=e.src||e,e.width&&(t.width=e.width),e.height&&(t.height=e.height),t}}return null};!function(e,t){void 0===t&&(t={});var n=t.insertAt;if(e&&"undefined"!=typeof document){var r=document.head||document.getElementsByTagName("head")[0],o=document.createElement("style");o.type="text/css","top"===n&&r.firstChild?r.insertBefore(o,r.firstChild):r.appendChild(o),o.styleSheet?o.styleSheet.cssText=e:o.appendChild(document.createTextNode(e));}}(".__drag {\n    position: absolute;\n    z-index: 999;\n    user-select: none;\n    opacity: .7;\n\n    --origin-x: 0px;\n    --origin-y: 0px;\n}\n\n@keyframes move {\n    100% {\n        left: var(--origin-x);\n        top: var(--origin-y);\n    }\n}");class h{static instances=[];#e=null;#t=null;#n=null;#r=null;#o=null;#i=null;#s=null;#a=null;#u=null;#d=null;#l=null;#h=0;#c=0;#g=0;#v=0;#m=null;#b=null;#f=null;#y=null;#p=null;static destroy(){h.instances.forEach((e=>{e.destroy();})),h.instances=[];}constructor(e,t,n,r,o,i,s,a,u){if(this.#e=e,this.#t=n,this.#r=r,this.#n=o||!1,this.#o={duration:.2,timingFunction:"ease",...i||{}},this.#i=s,this.#s=a,this.#a=u,this.#d=document.querySelector(t),this.#l=this.#t?l(this.#t):this.#e.cloneNode(!0),this.#l.setAttribute("draggable",!1),this.#l.setAttribute("id","drag"),this.#l.setAttribute("role","presentation"),this.#l.classList.add("__drag"),this.#r){const e=((e,t=!1)=>{if(e&&(e=e.startsWith(".")?e:`.${e}`,document.styleSheets?.length))for(let{cssRules:n}of document.styleSheets)for(let{selectorText:r,style:o}of n)if(r===e&&o)return t?o.cssText:o;return null})(this.#r,!0);e&&(this.#l.style.cssText=e);}this.#u=new d,this.#u.wait(this.#l,null,{events:[d.ADD]}).then((()=>{const{width:e,height:t}=this.#l.getBoundingClientRect();this.#g=e,this.#v=t;})),this.#m=this.#M.bind(this),this.#b=this.#E.bind(this),this.#f=this.#O.bind(this),this.#e.addEventListener("mouseover",this.#m,!1),this.#e.addEventListener("mouseout",this.#b,!1),this.#e.addEventListener("mousedown",this.#f,!1),this.#e.addEventListener("touchstart",this.#f,!1),h.instances.push(this);}destroy(){this.#e.removeEventListener("mouseover",this.#m),this.#e.removeEventListener("mouseout",this.#b),this.#e.removeEventListener("mousedown",this.#f),this.#e.removeEventListener("touchstart",this.#f),this.#m=null,this.#b=null,this.#f=null,this.#u?.clear(),this.#u=null;}#H(e){this.#n?(this.#l.style.setProperty("--origin-x",this.#e.getBoundingClientRect().left+"px"),this.#l.style.setProperty("--origin-y",this.#e.getBoundingClientRect().top+"px"),this.#l.style.animation=`move ${this.#o.duration}s ${this.#o.timingFunction}`,this.#l.addEventListener("animationend",(()=>{this.#l.style.animation="none",this.#l.remove(),e?.(this.#e,this.#d);}),!1)):(this.#l.remove(),e?.(this.#e,this.#d));}#M(e){e.target.style.cursor="grab";}#E(e){e.target.style.cursor="default";}#D(e){"hidden"===this.#l.style.visibility&&(this.#l.style.visibility="visible");const t="touchmove"===e.type?e.targetTouches[0].pageX:e.pageX,n="touchmove"===e.type?e.targetTouches[0].pageY:e.pageY;this.#l.style.left=t-(this.#t?this.#g>>1:this.#h)+"px",this.#l.style.top=n-(this.#t?this.#v>>1:this.#c)+"px";}#O(e){const t="touchstart"===e.type?e.targetTouches[0].clientX:e.clientX,n="touchstart"===e.type?e.targetTouches[0].clientY:e.clientY;this.#h=t-this.#e.getBoundingClientRect().left,this.#c=n-this.#e.getBoundingClientRect().top,this.#l.style.visibility="hidden",this.#l.style.cursor="grabbing",this.#y=this.#D.bind(this),this.#p=this.#w.bind(this),document.addEventListener("mousemove",this.#y,!1),document.addEventListener("mouseup",this.#p,!1),document.addEventListener("touchmove",this.#y,!1),document.addEventListener("keydown",this.#p),this.#e.addEventListener("touchend",this.#p,!1),this.#e.addEventListener("touchcancel",this.#p,!1),this.#e.parentNode.appendChild(this.#l);}#w(e){if(e.type.startsWith("key")&&"Escape"!==e.key)return;document.removeEventListener("mousemove",this.#y),document.removeEventListener("mouseup",this.#p),document.removeEventListener("touchmove",this.#y),document.removeEventListener("keydown",this.#p),this.#e.removeEventListener("touchend",this.#p),this.#e.removeEventListener("touchcancel",this.#p),this.#y=null,this.#p=null;const t=((e,t)=>{const{left:n,right:r,top:o,bottom:i}=e.getBoundingClientRect(),{left:s,right:a,top:u,bottom:d}=t.getBoundingClientRect();return !(o>d||r<s||i<u||n>a)})(this.#d,this.#l);e.type.startsWith("key")?this.#H(this.#a):t?this.#H(this.#s):(this.#l.remove(),this.#i?.(this.#e,this.#d));}}const c=(e,{areaSelector:t,dragImage:n,dragClassName:r,animate:o,animateOptions:i,onDropOutside:s,onDropInside:a,onDragCancel:u})=>{const d=new h(e,t,n,r,o,i,s,a,u);return {destroy:()=>d.destroy()}};
+    var e=function(e,r){(null==r||r>e.length)&&(r=e.length);for(var t=0,n=new Array(r);t<r;t++)n[t]=e[t];return n};var r=function(r){if(Array.isArray(r))return e(r)};var t$1=function(e){if("undefined"!=typeof Symbol&&Symbol.iterator in Object(e))return Array.from(e)};var n$1=function(r,t){if(r){if("string"==typeof r)return e(r,t);var n=Object.prototype.toString.call(r).slice(8,-1);return "Object"===n&&r.constructor&&(n=r.constructor.name),"Map"===n||"Set"===n?Array.from(r):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?e(r,t):void 0}};var o=function(){throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")};var i=function(e){return r(e)||t$1(e)||n$1(e)||o()};var a=function(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")};function u(e,r){for(var t=0;t<r.length;t++){var n=r[t];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n);}}var l=function(e,r,t){return r&&u(e.prototype,r),t&&u(e,t),e};var c=function(e,r,t){return r in e?Object.defineProperty(e,r,{value:t,enumerable:!0,configurable:!0,writable:!0}):e[r]=t,e},f=function(e){return 1===(null==e?void 0:e.nodeType)};function s(e,r){var t;if("undefined"==typeof Symbol||null==e[Symbol.iterator]){if(Array.isArray(e)||(t=function(e,r){if(!e)return;if("string"==typeof e)return d(e,r);var t=Object.prototype.toString.call(e).slice(8,-1);"Object"===t&&e.constructor&&(t=e.constructor.name);if("Map"===t||"Set"===t)return Array.from(e);if("Arguments"===t||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t))return d(e,r)}(e))||r&&e&&"number"==typeof e.length){t&&(e=t);var n=0,o=function(){};return {s:o,n:function(){return n>=e.length?{done:!0}:{done:!1,value:e[n++]}},e:function(e){throw e},f:o}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var i,a=!0,u=!1;return {s:function(){t=e[Symbol.iterator]();},n:function(){var e=t.next();return a=e.done,e},e:function(e){u=!0,i=e;},f:function(){try{a||null==t.return||t.return();}finally{if(u)throw i}}}}function d(e,r){(null==r||r>e.length)&&(r=e.length);for(var t=0,n=new Array(r);t<r;t++)n[t]=e[t];return n}var v=function(){function e(){a(this,e),c(this,"_observer",null);}return l(e,[{key:"wait",value:function(r){var t=this,n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,o=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{},a=o.events,u=void 0===a?e.EVENTS:a,l=o.timeout,c=void 0===l?0:l,d=o.attributeFilter,v=void 0===d?void 0:d,b=o.onError,m=void 0===b?void 0:b;return this.clear(),new Promise((function(o,a){var l=f(r)?r:document.querySelector(r);l&&u.includes(e.EXIST)&&(n?n(l,e.EXIST):o({node:l,event:e.EXIST})),c>0&&(t._timeout=setTimeout((function(){t.clear();var e=new Error("[TIMEOUT]: Element ".concat(r," cannot be found after ").concat(c,"ms"));n?null==m||m(e):a(e);}),c)),t._observer=new MutationObserver((function(t){t.forEach((function(t){var a,l=t.type,c=t.target,d=t.addedNodes,v=t.removedNodes,b=t.attributeName,m=t.oldValue;if("childList"===l&&(u.includes(e.ADD)||u.includes(e.REMOVE))){var y,E=s([].concat(i(u.includes(e.ADD)?Array.from(d):[]),i(u.includes(e.REMOVE)?Array.from(v):[])));try{for(E.s();!(y=E.n()).done;){var h,A=y.value;(A===r||!f(r)&&null!==(h=A.matches)&&void 0!==h&&h.call(A,r))&&(n?n(A,Array.from(d).includes(A)?e.ADD:e.REMOVE):o({node:A,event:Array.from(d).includes(A)?e.ADD:e.REMOVE}));}}catch(e){E.e(e);}finally{E.f();}}"attributes"===l&&u.includes(e.CHANGE)&&((c===r||!f(r)&&null!==(a=c.matches)&&void 0!==a&&a.call(c,r))&&(n?n(c,e.CHANGE,{attributeName:b,oldValue:m}):o({node:c,event:e.CHANGE,options:{attributeName:b,oldValue:m}})));}));})),t._observer.observe(document.documentElement,{subtree:!0,childList:u.includes(e.ADD)||u.includes(e.REMOVE),attributes:u.includes(e.CHANGE),attributeOldValue:u.includes(e.CHANGE),attributeFilter:v});}))}},{key:"clear",value:function(){var e;null===(e=this._observer)||void 0===e||e.disconnect(),clearTimeout(this._timeout);}}]),e}();c(v,"EXIST","DOMObserver_exist"),c(v,"ADD","DOMObserver_add"),c(v,"REMOVE","DOMObserver_remove"),c(v,"CHANGE","DOMObserver_change"),c(v,"EVENTS",[v.EXIST,v.ADD,v.REMOVE,v.CHANGE]);
 
-    /* src\App.svelte generated by Svelte v3.49.0 */
+    var t=function(t){return "string"==typeof t||"[object String]"===Object.prototype.toString.call(t)};
+
+    var n=function(n){return 1===(null==n?void 0:n.nodeType)};
+
+    const resolveDragImage = (source) => {
+    	if (!!source) {
+    		if (n(source)) {
+    			return source
+    		} else if (source.src || t(source)) {
+    			const image = new Image();
+    			image.src = source.src || source;
+    			source.width && (image.width = source.width);
+    			source.height && (image.height = source.height);
+    			return image
+    		}
+    	}
+    	return null
+    };
+
+    const getCSSDeclaration = (className, returnText = false) => {
+    	if (!!className) {
+    		className = className.startsWith('.') ? className : `.${className}`;
+
+    		if (!!document.styleSheets?.length) {
+    			for (let { cssRules } of document.styleSheets) {
+    				for (let { selectorText, style } of cssRules) {
+    					if (selectorText === className && !!style) {
+    						return returnText ? style.cssText : style
+    					}
+    				}
+    			}
+    		}
+    	}
+
+    	return null
+    };
+
+    const doElementsOverlap = (element1, element2) => {
+    	const { left: left1, right: right1, top: top1, bottom: bottom1 } = element1.getBoundingClientRect();
+    	const { left: left2, right: right2, top: top2, bottom: bottom2 } = element2.getBoundingClientRect();
+
+    	return !(top1 > bottom2 || right1 < left2 || bottom1 < top2 || left1 > right2)
+    };
+
+    class DragAndDrop {
+    	static instances = []
+
+    	#target = null
+    	#dragImage = null
+    	#animate = null
+    	#dragClassName = null
+    	#animateOptions = null
+    	#onDropOutside = null
+    	#onDropInside = null
+    	#onDragCancel = null
+
+    	#observer = null
+    	#area = null
+    	#drag = null
+    	#holdX = 0
+    	#holdY = 0
+    	#dragWidth = 0
+    	#dragHeight = 0
+
+    	#boundMouseOverHandler = null
+    	#boundMouseOutHandler = null
+    	#boundMouseDownHandler = null
+    	#boundMouseMoveHandler = null
+    	#boundMouseUpHandler = null
+
+    	static destroy() {
+    		DragAndDrop.instances.forEach((instance) => {
+    			instance.destroy();
+    		});
+    		DragAndDrop.instances = [];
+    	}
+
+    	constructor(
+    		target,
+    		areaSelector,
+    		dragImage,
+    		dragClassName,
+    		animate,
+    		animateOptions,
+    		onDropOutside,
+    		onDropInside,
+    		onDragCancel
+    	) {
+    		this.#target = target;
+    		this.#dragImage = dragImage;
+    		this.#dragClassName = dragClassName;
+    		this.#animate = animate || false;
+    		this.#animateOptions = { duration: 0.2, timingFunction: 'ease', ...(animateOptions || {}) };
+    		this.#onDropOutside = onDropOutside;
+    		this.#onDropInside = onDropInside;
+    		this.#onDragCancel = onDragCancel;
+
+    		this.#area = document.querySelector(areaSelector);
+
+    		this.#drag = this.#dragImage ? resolveDragImage(this.#dragImage) : this.#target.cloneNode(true);
+    		this.#drag.setAttribute('draggable', false);
+    		this.#drag.setAttribute('id', 'drag');
+    		this.#drag.setAttribute('role', 'presentation');
+    		this.#drag.classList.add('__drag');
+    		if (!!this.#dragClassName) {
+    			const cssText = getCSSDeclaration(this.#dragClassName, true);
+    			if (!!cssText) {
+    				this.#drag.style.cssText = cssText;
+    			}
+    		}
+
+    		this.#observer = new v();
+    		this.#observer.wait(this.#drag, null, { events: [v.ADD] }).then(() => {
+    			const { width, height } = this.#drag.getBoundingClientRect();
+    			this.#dragWidth = width;
+    			this.#dragHeight = height;
+    		});
+
+    		this.#boundMouseOverHandler = this.#onMouseOver.bind(this);
+    		this.#boundMouseOutHandler = this.#onMouseOut.bind(this);
+    		this.#boundMouseDownHandler = this.#onMouseDown.bind(this);
+
+    		this.#target.addEventListener('mouseover', this.#boundMouseOverHandler, false);
+    		this.#target.addEventListener('mouseout', this.#boundMouseOutHandler, false);
+    		this.#target.addEventListener('mousedown', this.#boundMouseDownHandler, false);
+    		this.#target.addEventListener('touchstart', this.#boundMouseDownHandler, false);
+
+    		DragAndDrop.instances.push(this);
+    	}
+
+    	destroy() {
+    		this.#target.removeEventListener('mouseover', this.#boundMouseOverHandler);
+    		this.#target.removeEventListener('mouseout', this.#boundMouseOutHandler);
+    		this.#target.removeEventListener('mousedown', this.#boundMouseDownHandler);
+    		this.#target.removeEventListener('touchstart', this.#boundMouseDownHandler);
+
+    		this.#boundMouseOverHandler = null;
+    		this.#boundMouseOutHandler = null;
+    		this.#boundMouseDownHandler = null;
+
+    		this.#observer?.clear();
+    		this.#observer = null;
+    	}
+
+    	#animateBack(callback) {
+    		if (this.#animate) {
+    			this.#drag.style.setProperty('--origin-x', this.#target.getBoundingClientRect().left + 'px');
+    			this.#drag.style.setProperty('--origin-y', this.#target.getBoundingClientRect().top + 'px');
+    			this.#drag.style.animation = `move ${this.#animateOptions.duration}s ${this.#animateOptions.timingFunction}`;
+    			this.#drag.addEventListener(
+    				'animationend',
+    				() => {
+    					this.#drag.style.animation = 'none';
+    					this.#drag.remove();
+    					callback?.(this.#target, this.#area);
+    				},
+    				false
+    			);
+    		} else {
+    			this.#drag.remove();
+    			callback?.(this.#target, this.#area);
+    		}
+    	}
+
+    	#onMouseOver(e) {
+    		e.target.style.cursor = 'grab';
+    	}
+
+    	#onMouseOut(e) {
+    		e.target.style.cursor = 'default';
+    	}
+
+    	#onMouseMove(e) {
+    		if (this.#drag.style.visibility === 'hidden') {
+    			this.#drag.style.visibility = 'visible';
+    		}
+
+    		const pageX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX;
+    		const pageY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY;
+
+    		this.#drag.style.left = pageX - (this.#dragImage ? this.#dragWidth >> 1 : this.#holdX) + 'px';
+    		this.#drag.style.top = pageY - (this.#dragImage ? this.#dragHeight >> 1 : this.#holdY) + 'px';
+    	}
+
+    	#onMouseDown(e) {
+    		const clientX = e.type === 'touchstart' ? e.targetTouches[0].clientX : e.clientX;
+    		const clientY = e.type === 'touchstart' ? e.targetTouches[0].clientY : e.clientY;
+    		this.#holdX = clientX - this.#target.getBoundingClientRect().left;
+    		this.#holdY = clientY - this.#target.getBoundingClientRect().top;
+
+    		this.#drag.style.visibility = 'hidden';
+    		this.#drag.style.cursor = 'grabbing';
+
+    		this.#boundMouseMoveHandler = this.#onMouseMove.bind(this);
+    		this.#boundMouseUpHandler = this.#onMouseUp.bind(this);
+
+    		document.addEventListener('mousemove', this.#boundMouseMoveHandler, false);
+    		document.addEventListener('mouseup', this.#boundMouseUpHandler, false);
+    		document.addEventListener('touchmove', this.#boundMouseMoveHandler, false);
+    		document.addEventListener('keydown', this.#boundMouseUpHandler);
+    		this.#target.addEventListener('touchend', this.#boundMouseUpHandler, false);
+    		this.#target.addEventListener('touchcancel', this.#boundMouseUpHandler, false);
+
+    		this.#target.parentNode.appendChild(this.#drag);
+    	}
+
+    	#onMouseUp(e) {
+    		if (e.type.startsWith('key') && e.key !== 'Escape') {
+    			return
+    		}
+
+    		document.removeEventListener('mousemove', this.#boundMouseMoveHandler);
+    		document.removeEventListener('mouseup', this.#boundMouseUpHandler);
+    		document.removeEventListener('touchmove', this.#boundMouseMoveHandler);
+    		document.removeEventListener('keydown', this.#boundMouseUpHandler);
+    		this.#target.removeEventListener('touchend', this.#boundMouseUpHandler);
+    		this.#target.removeEventListener('touchcancel', this.#boundMouseUpHandler);
+
+    		this.#boundMouseMoveHandler = null;
+    		this.#boundMouseUpHandler = null;
+
+    		const doOverlap = doElementsOverlap(this.#area, this.#drag);
+
+    		if (e.type.startsWith('key')) {
+    			this.#animateBack(this.#onDragCancel);
+    		} else if (doOverlap) {
+    			this.#animateBack(this.#onDropInside);
+    		} else {
+    			this.#drag.remove();
+    			this.#onDropOutside?.(this.#target, this.#area);
+    		}
+    	}
+    }
+
+    const useDropOutside = (
+    	node,
+    	{ areaSelector, dragImage, dragClassName, animate, animateOptions, onDropOutside, onDropInside, onDragCancel }
+    ) => {
+    	const instance = new DragAndDrop(
+    		node,
+    		areaSelector,
+    		dragImage,
+    		dragClassName,
+    		animate,
+    		animateOptions,
+    		onDropOutside,
+    		onDropInside,
+    		onDragCancel
+    	);
+
+    	return {
+    		destroy: () => instance.destroy(),
+    	}
+    };
+
+    /* src\App.svelte generated by Svelte v3.44.0 */
 
     const { console: console_1 } = globals;
     const file = "src\\App.svelte";
@@ -366,7 +603,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (101:4) {#each colors as color, index}
+    // (44:8) {#each colors as color, index}
     function create_each_block(ctx) {
     	let li;
     	let mounted;
@@ -376,14 +613,14 @@ var app = (function () {
     		c: function create() {
     			li = element("li");
     			attr_dev(li, "style", `background-color: ${/*color*/ ctx[4]}`);
-    			attr_dev(li, "class", "slot svelte-i69o");
-    			add_location(li, file, 101, 5, 1657);
+    			attr_dev(li, "class", "slot svelte-xc2x4a");
+    			add_location(li, file, 44, 10, 852);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
 
     			if (!mounted) {
-    				dispose = action_destroyer(c.call(null, li, {
+    				dispose = action_destroyer(useDropOutside.call(null, li, {
     					areaSelector: '.area',
     					animate: true,
     					animateOptions: {
@@ -409,7 +646,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(101:4) {#each colors as color, index}",
+    		source: "(44:8) {#each colors as color, index}",
     		ctx
     	});
 
@@ -436,7 +673,7 @@ var app = (function () {
     			main = element("main");
     			div1 = element("div");
     			p = element("p");
-    			p.textContent = "Drop the color slots outside the white area";
+    			p.textContent = "Drop the color slots outside the white area to delete them";
     			t1 = space();
     			div0 = element("div");
     			ul = element("ul");
@@ -445,17 +682,17 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(p, "class", "instruction svelte-i69o");
-    			add_location(p, file, 97, 2, 1489);
-    			attr_dev(ul, "class", "slot-list svelte-i69o");
-    			add_location(ul, file, 99, 3, 1594);
+    			attr_dev(p, "class", "instruction svelte-xc2x4a");
+    			add_location(p, file, 40, 4, 653);
+    			attr_dev(ul, "class", "slot-list svelte-xc2x4a");
+    			add_location(ul, file, 42, 6, 778);
     			attr_dev(div0, "id", "area");
-    			attr_dev(div0, "class", "area svelte-i69o");
-    			add_location(div0, file, 98, 2, 1562);
-    			attr_dev(div1, "class", "container svelte-i69o");
-    			add_location(div1, file, 96, 1, 1463);
-    			attr_dev(main, "class", "svelte-i69o");
-    			add_location(main, file, 95, 0, 1455);
+    			attr_dev(div0, "class", "area svelte-xc2x4a");
+    			add_location(div0, file, 41, 2, 742);
+    			attr_dev(div1, "class", "container svelte-xc2x4a");
+    			add_location(div1, file, 39, 1, 624);
+    			attr_dev(main, "class", "svelte-xc2x4a");
+    			add_location(main, file, 38, 0, 615);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -561,7 +798,7 @@ var app = (function () {
     	});
 
     	$$self.$capture_state = () => ({
-    		useDropOutside: c,
+    		useDropOutside,
     		colors,
     		_onDropOutside,
     		_onDropInside,
