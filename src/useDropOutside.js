@@ -17,6 +17,26 @@ const useDropOutside = (
 	)
 
 	return {
+		update: ({
+			areaSelector,
+			dragImage,
+			dragClassName,
+			animate,
+			animateOptions,
+			onDropOutside,
+			onDropInside,
+			onDragCancel,
+		}) =>
+			instance.update(
+				areaSelector,
+				dragImage,
+				dragClassName,
+				animate,
+				animateOptions,
+				onDropOutside,
+				onDropInside,
+				onDragCancel
+			),
 		destroy: () => instance.destroy(),
 	}
 }

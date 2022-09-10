@@ -61,24 +61,7 @@ class DragAndDrop {
 
 		this.#area = document.querySelector(areaSelector)
 
-		this.#drag = this.#dragImage ? resolveDragImage(this.#dragImage) : this.#target.cloneNode(true)
-		this.#drag.setAttribute('draggable', false)
-		this.#drag.setAttribute('id', 'drag')
-		this.#drag.setAttribute('role', 'presentation')
-		this.#drag.classList.add('__drag')
-		if (!!this.#dragClassName) {
-			const cssText = getCSSDeclaration(this.#dragClassName, true)
-			if (!!cssText) {
-				this.#drag.style.cssText = cssText
-			}
-		}
-
-		this.#observer = new DOMObserver()
-		this.#observer.wait(this.#drag, null, { events: [DOMObserver.ADD] }).then(() => {
-			const { width, height } = this.#drag.getBoundingClientRect()
-			this.#dragWidth = width
-			this.#dragHeight = height
-		})
+		this.#drag = this.#createDrag()
 
 		this.#boundMouseOverHandler = this.#onMouseOver.bind(this)
 		this.#boundMouseOutHandler = this.#onMouseOut.bind(this)
@@ -90,6 +73,20 @@ class DragAndDrop {
 		this.#target.addEventListener('touchstart', this.#boundMouseDownHandler, false)
 
 		DragAndDrop.instances.push(this)
+	}
+
+	update(areaSelector, dragImage, dragClassName, animate, animateOptions, onDropOutside, onDropInside, onDragCancel) {
+		this.#dragImage = dragImage
+		this.#dragClassName = dragClassName
+		this.#animate = animate || false
+		this.#animateOptions = { duration: 0.2, timingFunction: 'ease', ...(animateOptions || {}) }
+		this.#onDropOutside = onDropOutside
+		this.#onDropInside = onDropInside
+		this.#onDragCancel = onDragCancel
+
+		this.#area = document.querySelector(areaSelector)
+
+		this.#drag = this.#createDrag()
 	}
 
 	destroy() {
@@ -104,6 +101,29 @@ class DragAndDrop {
 
 		this.#observer?.clear()
 		this.#observer = null
+	}
+
+	#createDrag() {
+		const drag = this.#dragImage ? resolveDragImage(this.#dragImage) : this.#target.cloneNode(true)
+		drag.setAttribute('draggable', false)
+		drag.setAttribute('id', 'drag')
+		drag.setAttribute('role', 'presentation')
+		drag.classList.add('__drag')
+		if (!!this.#dragClassName) {
+			const cssText = getCSSDeclaration(this.#dragClassName, true)
+			if (!!cssText) {
+				drag.style.cssText = cssText
+			}
+		}
+
+		this.#observer = new DOMObserver()
+		this.#observer.wait(drag, null, { events: [DOMObserver.ADD] }).then(() => {
+			const { width, height } = drag.getBoundingClientRect()
+			this.#dragWidth = width
+			this.#dragHeight = height
+		})
+
+		return drag
 	}
 
 	#animateBack(callback) {
