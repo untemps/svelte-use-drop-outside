@@ -167,7 +167,6 @@ describe('useDropOutside', () => {
 			useReturn = useDropOutside(target, { ...options, dragClassName: 'gag' })
 			fireEvent.mouseDown(target)
 			fireEvent.mouseMove(document)
-			screen.debug()
 			expect(screen.getByRole('presentation')).toBeInTheDocument()
 			expect(screen.getByRole('presentation')).toHaveStyle('background-color: black;')
 		})
