@@ -33,7 +33,7 @@
 	let useDragImage = false
 
 	const _onDropOutside = (node, area) => {
-
+		node.remove()
 	}
 
 	const _onDropInside = () => {
@@ -66,7 +66,6 @@
 	.area {
 		width: 300px;
 		height: 300px;
-      padding: 12rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -89,15 +88,17 @@
 		width: 24px;
 		height: 24px;
 		margin: 0;
-		padding: 10rem;
+		padding: 0;
 		border: 1px solid rgba(0, 0, 0, 0.2);
-		background-color: #2b2d42;
+		border-radius: 50%;
 	}
 
 	:global(.drag) {
 		opacity: 0.5;
 		background-color: deeppink;
 		border-radius: 0;
+		width: 100px;
+		height: 100px;
 	}
 
 	.toggle__button {
@@ -181,7 +182,9 @@
 			<SettingsIcon />
 		</button>
 		<div id="area" class="area">
-			<div
+			<ul class="slot-list">
+				{#each colors as color, index}
+					<li
 				use:useDropOutside={{
 					areaSelector: '.area',
 					animate,
@@ -195,13 +198,14 @@
 						  }
 						: null,
 					dragClassName: useDragClass ? 'drag' : null,
-					dragHandleCentered: false,
 					onDropOutside: _onDropOutside,
 					onDropInside: _onDropInside,
 					onDragCancel: _onDragCancel,
 				}}
-				class="slot">
-			</div>
+						style={`background-color: ${color}`}
+						class="slot" />
+				{/each}
+			</ul>
 		</div>
 	</div>
 </main>
