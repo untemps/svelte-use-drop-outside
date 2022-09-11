@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.4.0...v1.5.0) (2022-09-11)
+
+
+### Features
+
+* Implement action update ([#18](https://github.com/untemps/svelte-use-drop-outside/issues/18)) ([4c88abc](https://github.com/untemps/svelte-use-drop-outside/commit/4c88abce71316502af9411f91beb0c05d8d5b35c))
+
 # [1.4.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.3.0...v1.4.0) (2022-09-06)
 
 
