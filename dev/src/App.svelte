@@ -97,6 +97,8 @@
 		opacity: 0.5;
 		background-color: deeppink;
 		border-radius: 0;
+      width: 100px;
+      height: 100px;
 	}
 
 	.toggle__button {

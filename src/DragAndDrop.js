@@ -128,8 +128,18 @@ class DragAndDrop {
 
 	#animateBack(callback) {
 		if (this.#animate) {
-			this.#drag.style.setProperty('--origin-x', this.#target.getBoundingClientRect().left + 'px')
-			this.#drag.style.setProperty('--origin-y', this.#target.getBoundingClientRect().top + 'px')
+			this.#drag.style.setProperty(
+				'--origin-x',
+				this.#target.getBoundingClientRect().left -
+					(this.#dragImage || this.#dragClassName ? this.#dragWidth >> 1 : 0) +
+					'px'
+			)
+			this.#drag.style.setProperty(
+				'--origin-y',
+				this.#target.getBoundingClientRect().top -
+					(this.#dragImage || this.#dragClassName ? this.#dragHeight >> 1 : 0) +
+					'px'
+			)
 			this.#drag.style.animation = `move ${this.#animateOptions.duration}s ${this.#animateOptions.timingFunction}`
 			this.#drag.addEventListener(
 				'animationend',
@@ -162,8 +172,10 @@ class DragAndDrop {
 		const pageX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX
 		const pageY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY
 
-		this.#drag.style.left = pageX - (this.#dragImage ? this.#dragWidth >> 1 : this.#holdX) + 'px'
-		this.#drag.style.top = pageY - (this.#dragImage ? this.#dragHeight >> 1 : this.#holdY) + 'px'
+		this.#drag.style.left =
+			pageX - (this.#dragImage || this.#dragClassName ? this.#dragWidth >> 1 : this.#holdX) + 'px'
+		this.#drag.style.top =
+			pageY - (this.#dragImage || this.#dragClassName ? this.#dragHeight >> 1 : this.#holdY) + 'px'
 	}
 
 	#onMouseDown(e) {
