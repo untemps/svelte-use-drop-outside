@@ -11,9 +11,10 @@ class DragAndDrop {
 
 	#target = null
 	#dragImage = null
-	#animate = null
 	#dragClassName = null
+	#animate = false
 	#animateOptions = null
+	#dragHandleCentered = false
 	#onDropOutside = null
 	#onDropInside = null
 	#onDragCancel = null
@@ -46,6 +47,7 @@ class DragAndDrop {
 		dragClassName,
 		animate,
 		animateOptions,
+		dragHandleCentered,
 		onDropOutside,
 		onDropInside,
 		onDragCancel
@@ -55,6 +57,7 @@ class DragAndDrop {
 		this.#dragClassName = dragClassName
 		this.#animate = animate || false
 		this.#animateOptions = { duration: 0.2, timingFunction: 'ease', ...(animateOptions || {}) }
+		this.#dragHandleCentered = dragHandleCentered || false
 		this.#onDropOutside = onDropOutside
 		this.#onDropInside = onDropInside
 		this.#onDragCancel = onDragCancel
@@ -75,11 +78,22 @@ class DragAndDrop {
 		DragAndDrop.instances.push(this)
 	}
 
-	update(areaSelector, dragImage, dragClassName, animate, animateOptions, onDropOutside, onDropInside, onDragCancel) {
+	update(
+		areaSelector,
+		dragImage,
+		dragClassName,
+		animate,
+		animateOptions,
+		dragHandleCentered,
+		onDropOutside,
+		onDropInside,
+		onDragCancel
+	) {
 		this.#dragImage = dragImage
 		this.#dragClassName = dragClassName
 		this.#animate = animate || false
 		this.#animateOptions = { duration: 0.2, timingFunction: 'ease', ...(animateOptions || {}) }
+		this.#dragHandleCentered = dragHandleCentered || false
 		this.#onDropOutside = onDropOutside
 		this.#onDropInside = onDropInside
 		this.#onDragCancel = onDragCancel
@@ -130,15 +144,11 @@ class DragAndDrop {
 		if (this.#animate) {
 			this.#drag.style.setProperty(
 				'--origin-x',
-				this.#target.getBoundingClientRect().left -
-					(this.#dragImage || this.#dragClassName ? this.#dragWidth >> 1 : 0) +
-					'px'
+				this.#target.getBoundingClientRect().left - (this.#dragHandleCentered ? this.#dragWidth >> 1 : 0) + 'px'
 			)
 			this.#drag.style.setProperty(
 				'--origin-y',
-				this.#target.getBoundingClientRect().top -
-					(this.#dragImage || this.#dragClassName ? this.#dragHeight >> 1 : 0) +
-					'px'
+				this.#target.getBoundingClientRect().top - (this.#dragHandleCentered ? this.#dragHeight >> 1 : 0) + 'px'
 			)
 			this.#drag.style.animation = `move ${this.#animateOptions.duration}s ${this.#animateOptions.timingFunction}`
 			this.#drag.addEventListener(
@@ -172,10 +182,8 @@ class DragAndDrop {
 		const pageX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX
 		const pageY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY
 
-		this.#drag.style.left =
-			pageX - (this.#dragImage || this.#dragClassName ? this.#dragWidth >> 1 : this.#holdX) + 'px'
-		this.#drag.style.top =
-			pageY - (this.#dragImage || this.#dragClassName ? this.#dragHeight >> 1 : this.#holdY) + 'px'
+		this.#drag.style.left = pageX - (this.#dragHandleCentered ? this.#dragWidth >> 1 : this.#holdX) + 'px'
+		this.#drag.style.top = pageY - (this.#dragHandleCentered ? this.#dragHeight >> 1 : this.#holdY) + 'px'
 	}
 
 	#onMouseDown(e) {
@@ -222,8 +230,7 @@ class DragAndDrop {
 		} else if (doOverlap) {
 			this.#animateBack(this.#onDropInside)
 		} else {
-			this.#drag.remove()
-			this.#onDropOutside?.(this.#target, this.#area)
+			this.#animateBack(this.#onDropOutside)
 		}
 	}
 }

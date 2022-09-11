@@ -33,7 +33,7 @@
 	let useDragImage = false
 
 	const _onDropOutside = (node, area) => {
-		node.remove()
+
 	}
 
 	const _onDropInside = () => {
@@ -66,6 +66,7 @@
 	.area {
 		width: 300px;
 		height: 300px;
+      padding: 12rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -88,17 +89,15 @@
 		width: 24px;
 		height: 24px;
 		margin: 0;
-		padding: 0;
+		padding: 10rem;
 		border: 1px solid rgba(0, 0, 0, 0.2);
-		border-radius: 50%;
+		background-color: #2b2d42;
 	}
 
 	:global(.drag) {
 		opacity: 0.5;
 		background-color: deeppink;
 		border-radius: 0;
-		width: 100px;
-		height: 100px;
 	}
 
 	.toggle__button {
@@ -144,12 +143,6 @@
 		column-gap: 1rem;
 	}
 
-	.settings__form fieldset.vertical {
-		flex-direction: column;
-		justify-content: center;
-		row-gap: 1rem;
-	}
-
 	.settings__form input {
 		margin: 0;
 	}
@@ -188,30 +181,27 @@
 			<SettingsIcon />
 		</button>
 		<div id="area" class="area">
-			<ul class="slot-list">
-				{#each colors as color, index}
-					<li
-						use:useDropOutside={{
-							areaSelector: '.area',
-							animate,
-							animateOptions: {
-								timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-							},
-							dragImage: useDragImage
-								? {
-										src: 'https://www.123-stickers.com/7345-thickbox/autocollant-bebe-winnie-l-ourson.jpg',
-										height: 70,
-								  }
-								: null,
-							dragClassName: useDragClass ? 'drag' : null,
-							onDropOutside: _onDropOutside,
-							onDropInside: _onDropInside,
-							onDragCancel: _onDragCancel,
-						}}
-						style={`background-color: ${color}`}
-						class="slot" />
-				{/each}
-			</ul>
+			<div
+				use:useDropOutside={{
+					areaSelector: '.area',
+					animate,
+					animateOptions: {
+						timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+					},
+					dragImage: useDragImage
+						? {
+								src: 'https://www.123-stickers.com/7345-thickbox/autocollant-bebe-winnie-l-ourson.jpg',
+								height: 70,
+						  }
+						: null,
+					dragClassName: useDragClass ? 'drag' : null,
+					dragHandleCentered: false,
+					onDropOutside: _onDropOutside,
+					onDropInside: _onDropInside,
+					onDragCancel: _onDragCancel,
+				}}
+				class="slot">
+			</div>
 		</div>
 	</div>
 </main>
