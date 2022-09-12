@@ -231,7 +231,8 @@ class DragAndDrop {
 		} else if (doOverlap) {
 			this.#animateBack(this.#onDropInside)
 		} else {
-			this.#animateBack(this.#onDropOutside)
+			this.#drag.remove()
+			this.#onDropOutside?.(this.#target, this.#area)
 		}
 	}
 }

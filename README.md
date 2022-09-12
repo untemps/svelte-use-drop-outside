@@ -262,8 +262,11 @@ Same regarding the position the dragged element has to move back when it is drop
 
 The `dragHandleCentered` prop allows to control the way the dragged element is handled:
 
-- If `true`, it will be centered.
-- If `false`, it will use the first position the user interacts with the target.
+- If `true`, the center point the dragged element will be used.
+- If `false`, the top left point of the dragged element will be used.
+
+<img src="assets/drag-handle-centered-false.gif" alt="DragHandleCentered set to false"/>
+<img src="assets/drag-handle-centered-true.gif" alt="DragHandleCentered set to true"/>
 
 ### Callbacks
 
