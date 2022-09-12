@@ -31,6 +31,7 @@
 	let animate = false
 	let useDragClass = false
 	let useDragImage = false
+	let isHandleCentered = false
 
 	const _onDropOutside = (node, area) => {
 		node.remove()
@@ -173,6 +174,10 @@
 					<label for="useDragImage"> Use Drag Image: </label>
 					<input id="useDragImage" type="checkbox" bind:checked={useDragImage} />
 				</fieldset>
+				<fieldset class="horizontal">
+					<label for="isHandleCentered"> Center Handle: </label>
+					<input id="isHandleCentered" type="checkbox" bind:checked={isHandleCentered} />
+				</fieldset>
 			</form>
 		</div>
 	{/if}
@@ -185,23 +190,24 @@
 			<ul class="slot-list">
 				{#each colors as color, index}
 					<li
-				use:useDropOutside={{
-					areaSelector: '.area',
-					animate,
-					animateOptions: {
-						timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-					},
-					dragImage: useDragImage
-						? {
-								src: 'https://www.123-stickers.com/7345-thickbox/autocollant-bebe-winnie-l-ourson.jpg',
-								height: 70,
-						  }
-						: null,
-					dragClassName: useDragClass ? 'drag' : null,
-					onDropOutside: _onDropOutside,
-					onDropInside: _onDropInside,
-					onDragCancel: _onDragCancel,
-				}}
+						use:useDropOutside={{
+							areaSelector: '.area',
+							animate,
+							animateOptions: {
+								timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+							},
+							dragImage: useDragImage
+								? {
+										src: 'https://www.123-stickers.com/7345-thickbox/autocollant-bebe-winnie-l-ourson.jpg',
+										height: 70,
+								  }
+								: null,
+							dragClassName: useDragClass ? 'drag' : null,
+							dragHandleCentered: isHandleCentered,
+							onDropOutside: _onDropOutside,
+							onDropInside: _onDropInside,
+							onDragCancel: _onDragCancel,
+						}}
 						style={`background-color: ${color}`}
 						class="slot" />
 				{/each}
