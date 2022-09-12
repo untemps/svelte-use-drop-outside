@@ -265,9 +265,6 @@ The `dragHandleCentered` prop allows to control the way the dragged element is h
 - If `true`, the center point the dragged element will be used.
 - If `false`, the top left point of the dragged element will be used.
 
-<img src="assets/drag-handle-centered-false.gif" alt="DragHandleCentered set to false"/>
-<img src="assets/drag-handle-centered-true.gif" alt="DragHandleCentered set to true"/>
-
 ### Callbacks
 
 All callbacks are triggered with the following arguments:
