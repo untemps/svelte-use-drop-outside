@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.5.0...v1.6.0) (2022-09-12)
+
+
+### Features
+
+* Add dragHandleCentered prop ([#20](https://github.com/untemps/svelte-use-drop-outside/issues/20)) ([7946033](https://github.com/untemps/svelte-use-drop-outside/commit/7946033933f27e971b010bf2314a5a18d694cbdc)), closes [#19](https://github.com/untemps/svelte-use-drop-outside/issues/19) [#19](https://github.com/untemps/svelte-use-drop-outside/issues/19) [#19](https://github.com/untemps/svelte-use-drop-outside/issues/19) [#19](https://github.com/untemps/svelte-use-drop-outside/issues/19) [#19](https://github.com/untemps/svelte-use-drop-outside/issues/19) [#19](https://github.com/untemps/svelte-use-drop-outside/issues/19) [#19](https://github.com/untemps/svelte-use-drop-outside/issues/19) [#19](https://github.com/untemps/svelte-use-drop-outside/issues/19) [#19](https://github.com/untemps/svelte-use-drop-outside/issues/19)
+
 # [1.5.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.4.0...v1.5.0) (2022-09-11)
 
 
