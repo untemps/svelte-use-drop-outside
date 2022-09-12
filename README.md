@@ -255,10 +255,10 @@ The animation can be configured through the `animateOptions` prop:
 | duration       | number | .2      | Duration of the animation (in seconds).                                                                                                                   |
 | timingFunction | string | 'ease'  | Function that defines the animation effect (see [animation-timing-function](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)). |
 
-### Drag Handle Centered
+### Center Drag Handle
 
-In some cases, usually when customizing the dragged element, through the `dragImage` or the `dragClassName` prop, leading to different sizes between the target and the dragged element, you may want to center the dragged element when moving to avoid weird behaviour.  
-Same regarding the position the dragged element has to move to when it is dropped.
+In some cases, usually when you customize the dragged element, through the `dragImage` or the `dragClassName` prop, you may want to center the dragged element under the pointer when moving to avoid weird behaviours.  
+Same regarding the position the dragged element has to move back when it is dropped.
 
 The `dragHandleCentered` prop allows to control the way the dragged element is handled:
 

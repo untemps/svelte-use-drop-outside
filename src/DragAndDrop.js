@@ -142,13 +142,14 @@ class DragAndDrop {
 
 	#animateBack(callback) {
 		if (this.#animate) {
+			const { width, height, left, top } = this.#target.getBoundingClientRect()
 			this.#drag.style.setProperty(
 				'--origin-x',
-				this.#target.getBoundingClientRect().left - (this.#dragHandleCentered ? this.#dragWidth >> 1 : 0) + 'px'
+				left - (this.#dragHandleCentered ? (this.#dragWidth - width) >> 1 : 0) + 'px'
 			)
 			this.#drag.style.setProperty(
 				'--origin-y',
-				this.#target.getBoundingClientRect().top - (this.#dragHandleCentered ? this.#dragHeight >> 1 : 0) + 'px'
+				top - (this.#dragHandleCentered ? (this.#dragHeight - height) >> 1 : 0) + 'px'
 			)
 			this.#drag.style.animation = `move ${this.#animateOptions.duration}s ${this.#animateOptions.timingFunction}`
 			this.#drag.addEventListener(
@@ -230,8 +231,7 @@ class DragAndDrop {
 		} else if (doOverlap) {
 			this.#animateBack(this.#onDropInside)
 		} else {
-			this.#drag.remove()
-			this.#onDropOutside?.(this.#target, this.#area)
+			this.#animateBack(this.#onDropOutside)
 		}
 	}
 }
