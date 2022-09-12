@@ -29,8 +29,9 @@
 	let showSettings = false
 
 	let animate = false
-	let useDragCustomClass = false
-	let dragImage = null
+	let useDragClass = false
+	let useDragImage = false
+	let isHandleCentered = false
 
 	const _onDropOutside = (node, area) => {
 		node.remove()
@@ -97,6 +98,8 @@
 		opacity: 0.5;
 		background-color: deeppink;
 		border-radius: 0;
+		width: 100px;
+		height: 100px;
 	}
 
 	.toggle__button {
@@ -133,19 +136,13 @@
 	.settings__form fieldset {
 		width: 100%;
 		border: none;
-      display: flex;
+		display: flex;
 	}
 
 	.settings__form fieldset.horizontal {
-      align-items: center;
-      justify-content: space-between;
-      column-gap: 1rem;
-	}
-
-	.settings__form fieldset.vertical {
-      flex-direction: column;
-      justify-content: center;
-      row-gap: 1rem;
+		align-items: center;
+		justify-content: space-between;
+		column-gap: 1rem;
 	}
 
 	.settings__form input {
@@ -164,18 +161,22 @@
 				<CloseIcon />
 			</button>
 			<form class="settings__form">
-        <h1>Settings</h1>
+				<h1>Settings</h1>
 				<fieldset class="horizontal">
 					<label for="animate"> Animate Drag Back: </label>
 					<input id="animate" type="checkbox" bind:checked={animate} />
 				</fieldset>
 				<fieldset class="horizontal">
-					<label for="useDragCustomClass"> Use Drag Custom Class: </label>
-					<input id="useDragCustomClass" type="checkbox" bind:checked={useDragCustomClass} />
+					<label for="useDragCustomClass"> Use Drag Class: </label>
+					<input id="useDragCustomClass" type="checkbox" bind:checked={useDragClass} />
 				</fieldset>
-				<fieldset class="vertical">
-					<label for="dragImage"> Drag Image URL: </label>
-					<input id="dragImage" type="text" bind:value={dragImage} />
+				<fieldset class="horizontal">
+					<label for="useDragImage"> Use Drag Image: </label>
+					<input id="useDragImage" type="checkbox" bind:checked={useDragImage} />
+				</fieldset>
+				<fieldset class="horizontal">
+					<label for="isHandleCentered"> Center Handle: </label>
+					<input id="isHandleCentered" type="checkbox" bind:checked={isHandleCentered} />
 				</fieldset>
 			</form>
 		</div>
@@ -195,8 +196,14 @@
 							animateOptions: {
 								timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
 							},
-							dragImage,
-							dragClassName: useDragCustomClass ? 'drag' : null,
+							dragImage: useDragImage
+								? {
+										src: 'https://www.123-stickers.com/7345-thickbox/autocollant-bebe-winnie-l-ourson.jpg',
+										height: 70,
+								  }
+								: null,
+							dragClassName: useDragClass ? 'drag' : null,
+							dragHandleCentered: isHandleCentered,
 							onDropOutside: _onDropOutside,
 							onDropInside: _onDropInside,
 							onDragCancel: _onDragCancel,

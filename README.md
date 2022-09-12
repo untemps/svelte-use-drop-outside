@@ -100,16 +100,17 @@ yarn add @untemps/svelte-use-drop-outside
 
 ## API
 
-| Props            | Type                        | Default                                  | Description                                                                            |
-|------------------|-----------------------------|------------------------------------------|----------------------------------------------------------------------------------------|
-| `areaSelector`   | string                      | null                                     | Selector of the element considered as the "inside" area.                               |
-| `dragImage`      | element or object or string | null                                     | The image used when the element is dragging.                                           |
-| `dragClassName`  | string                      | null                                     | A class name that will be assigned to the dragged element.                             |
-| `animate`        | boolean                     | false                                    | A flag to enable animation back.                                                       |
-| `animateOptions` | object                      | { duration: .2, timingFunction: 'ease' } | Optional options for the animation back (see [Animation Options](#animation-options)). |
-| `onDropOutside`  | function                    | null                                     | Callback triggered when the dragged element is dropped outside the area.               |
-| `onDropInside`   | function                    | null                                     | Callback triggered when the dragged element is dropped inside the area                 |
-| `onDragCancel`   | function                    | null                                     | Callback triggered when the drag is cancelled (Esc key)                                |
+| Props                | Type                        | Default                                  | Description                                                                            |
+|----------------------|-----------------------------|------------------------------------------|----------------------------------------------------------------------------------------|
+| `areaSelector`       | string                      | null                                     | Selector of the element considered as the "inside" area.                               |
+| `dragImage`          | element or object or string | null                                     | The image used when the element is dragging.                                           |
+| `dragClassName`      | string                      | null                                     | A class name that will be assigned to the dragged element.                             |
+| `animate`            | boolean                     | false                                    | A flag to enable animation back.                                                       |
+| `animateOptions`     | object                      | { duration: .2, timingFunction: 'ease' } | Optional options for the animation back (see [Animation Options](#animation-options)). |
+| `dragHandleCentered` | boolean                     | false                                    | A flag to handle the dragged element by its center.                                    |
+| `onDropOutside`      | function                    | null                                     | Callback triggered when the dragged element is dropped outside the area.               |
+| `onDropInside`       | function                    | null                                     | Callback triggered when the dragged element is dropped inside the area                 |
+| `onDragCancel`       | function                    | null                                     | Callback triggered when the drag is cancelled (Esc key)                                |
 
 ### Area Selector
 
@@ -253,6 +254,16 @@ The animation can be configured through the `animateOptions` prop:
 |----------------|--------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | duration       | number | .2      | Duration of the animation (in seconds).                                                                                                                   |
 | timingFunction | string | 'ease'  | Function that defines the animation effect (see [animation-timing-function](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)). |
+
+### Center Drag Handle
+
+In some cases, usually when you customize the dragged element, through the `dragImage` or the `dragClassName` prop, you may want to center the dragged element under the pointer when moving to avoid weird behaviours.  
+Same regarding the position the dragged element has to move back when it is dropped.
+
+The `dragHandleCentered` prop allows to control the way the dragged element is handled:
+
+- If `true`, the center point the dragged element will be used.
+- If `false`, the top left point of the dragged element will be used.
 
 ### Callbacks
 
