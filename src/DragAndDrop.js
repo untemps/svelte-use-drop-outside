@@ -89,16 +89,16 @@ class DragAndDrop {
 		onDropInside,
 		onDragCancel
 	) {
-		this.#dragImage = dragImage
-		this.#dragClassName = dragClassName
-		this.#animate = animate || false
-		this.#animateOptions = { duration: 0.2, timingFunction: 'ease', ...(animateOptions || {}) }
-		this.#dragHandleCentered = dragHandleCentered || false
-		this.#onDropOutside = onDropOutside
-		this.#onDropInside = onDropInside
-		this.#onDragCancel = onDragCancel
+		this.#dragImage = dragImage || this.#dragImage
+		this.#dragClassName = dragClassName || this.#dragClassName
+		this.#animate = animate !== undefined ? animate : this.#animate
+		this.#animateOptions = animateOptions || this.#animateOptions
+		this.#dragHandleCentered = dragHandleCentered !== undefined ? dragHandleCentered : this.#dragHandleCentered
+		this.#onDropOutside = onDropOutside || this.#onDropOutside
+		this.#onDropInside = onDropInside || this.#onDropInside
+		this.#onDragCancel = onDragCancel || this.#onDragCancel
 
-		this.#area = document.querySelector(areaSelector)
+		this.#area = !!areaSelector ? document.querySelector(areaSelector) : this.#area
 
 		this.#drag = this.#createDrag()
 	}
