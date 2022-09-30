@@ -1,8 +1,8 @@
 import { DOMObserver } from '@untemps/dom-observer'
+import { doElementsOverlap } from '@untemps/utils/dom/doElementsOverlap'
+import { getCSSDeclaration } from '@untemps/utils/dom/getCSSDeclaration'
 
 import { resolveDragImage } from './utils/resolveDragImage'
-import { getCSSDeclaration } from './utils/getCSSDeclaration'
-import { doElementsOverlap } from './utils/doElementsOverlap'
 
 import './useDropOutside.css'
 
