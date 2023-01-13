@@ -4,14 +4,13 @@
 <h1 align="center">
     svelte-use-drop-outside
 </h1>
-
-[![npm](https://img.shields.io/npm/v/@untemps/svelte-use-drop-outside?style=for-the-badge)](https://www.npmjs.com/package/@untemps/svelte-use-drop-outside)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/untemps/svelte-use-outside/index.yml?style=for-the-badge)](https://github.com/untemps/svelte-use-outside/actions)
-[![Codecov](https://img.shields.io/codecov/c/github/untemps/svelte-use-drop-outside?style=for-the-badge)](https://codecov.io/gh/untemps/svelte-use-drop-outside)
-
 <p align="center">
     Svelte action to drop an element outside an area and more...
 </p>
+
+[![npm](https://img.shields.io/npm/v/@untemps/svelte-use-drop-outside?style=for-the-badge)](https://www.npmjs.com/package/@untemps/svelte-use-drop-outside)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/untemps/svelte-use-drop-outside/index.yml?style=for-the-badge)](https://github.com/untemps/svelte-use-drop-outside/actions)
+[![Codecov](https://img.shields.io/codecov/c/github/untemps/svelte-use-drop-outside?style=for-the-badge)](https://codecov.io/gh/untemps/svelte-use-drop-outside)
 
 ## Demo
 
