@@ -4,9 +4,9 @@
 <h1 align="center">
     svelte-use-drop-outside
 </h1>
-<p align="center">
+<h2 align="center">
     Svelte action to drop an element outside an area and more...
-</p>
+</h2>
 
 [![npm](https://img.shields.io/npm/v/@untemps/svelte-use-drop-outside?style=for-the-badge)](https://www.npmjs.com/package/@untemps/svelte-use-drop-outside)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/untemps/svelte-use-drop-outside/index.yml?style=for-the-badge)](https://github.com/untemps/svelte-use-drop-outside/actions)
