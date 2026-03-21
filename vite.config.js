@@ -4,6 +4,15 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 
 export default defineConfig({
 	plugins: [svelte(), cssInjectedByJsPlugin()],
+	test: {
+		environment: 'jsdom',
+		setupFiles: ['./src/setupTest.js'],
+		globals: true,
+		coverage: {
+			provider: 'v8',
+			reporter: ['text', 'lcov'],
+		},
+	},
 	build: {
 		lib: {
 			entry: 'src/index.js',

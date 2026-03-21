@@ -1,9 +1,6 @@
-import '@testing-library/jest-dom/extend-expect'
-import { fireEvent } from '@testing-library/svelte'
-import { toBeInTheDocument, toHaveAttribute, toHaveStyle } from '@testing-library/jest-dom/matchers'
+import '@testing-library/jest-dom'
+import { fireEvent } from '@testing-library/dom'
 import { standby } from '@untemps/utils/async/standby'
-
-expect.extend({ toBeInTheDocument, toHaveAttribute, toHaveStyle })
 
 global._enter = async (trigger) =>
 	new Promise(async (resolve) => {
