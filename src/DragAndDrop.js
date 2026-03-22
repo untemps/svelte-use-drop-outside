@@ -92,7 +92,7 @@ class DragAndDrop {
 		this.#dragImage = dragImage || this.#dragImage
 		this.#dragClassName = dragClassName || this.#dragClassName
 		this.#animate = animate !== undefined ? animate : this.#animate
-		this.#animateOptions = animateOptions || this.#animateOptions
+		this.#animateOptions = { ...this.#animateOptions, ...(animateOptions || {}) }
 		this.#dragHandleCentered = dragHandleCentered !== undefined ? dragHandleCentered : this.#dragHandleCentered
 		this.#onDropOutside = onDropOutside || this.#onDropOutside
 		this.#onDropInside = onDropInside || this.#onDropInside
