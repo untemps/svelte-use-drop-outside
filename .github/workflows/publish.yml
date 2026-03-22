@@ -1,19 +1,21 @@
-name: "deploy"
+name: "publish"
 on:
   push:
     branches:
       - main
       - beta
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
 jobs:
-  release:
+  publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-      id-token: write
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
@@ -23,7 +25,6 @@ jobs:
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: codecov/codecov-action@v5
         with:
           files: coverage/lcov.info
