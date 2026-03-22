@@ -15,6 +15,7 @@ class DragAndDrop {
 	#animate = false
 	#animateOptions = null
 	#dragHandleCentered = false
+	#axis = 'both'
 	#onDropOutside = null
 	#onDropInside = null
 	#onDragCancel = null
@@ -24,6 +25,8 @@ class DragAndDrop {
 	#drag = null
 	#holdX = 0
 	#holdY = 0
+	#initialLeft = '0px'
+	#initialTop = '0px'
 	#dragWidth = 0
 	#dragHeight = 0
 
@@ -48,6 +51,7 @@ class DragAndDrop {
 		animate,
 		animateOptions,
 		dragHandleCentered,
+		axis,
 		onDropOutside,
 		onDropInside,
 		onDragCancel
@@ -58,6 +62,7 @@ class DragAndDrop {
 		this.#animate = animate || false
 		this.#animateOptions = { duration: 0.2, timingFunction: 'ease', ...(animateOptions || {}) }
 		this.#dragHandleCentered = dragHandleCentered || false
+		this.#axis = axis || 'both'
 		this.#onDropOutside = onDropOutside
 		this.#onDropInside = onDropInside
 		this.#onDragCancel = onDragCancel
@@ -85,6 +90,7 @@ class DragAndDrop {
 		animate,
 		animateOptions,
 		dragHandleCentered,
+		axis,
 		onDropOutside,
 		onDropInside,
 		onDragCancel
@@ -94,6 +100,7 @@ class DragAndDrop {
 		this.#animate = animate !== undefined ? animate : this.#animate
 		this.#animateOptions = { ...this.#animateOptions, ...(animateOptions || {}) }
 		this.#dragHandleCentered = dragHandleCentered !== undefined ? dragHandleCentered : this.#dragHandleCentered
+		this.#axis = axis !== undefined ? axis : this.#axis
 		this.#onDropOutside = onDropOutside !== undefined ? onDropOutside : this.#onDropOutside
 		this.#onDropInside = onDropInside !== undefined ? onDropInside : this.#onDropInside
 		this.#onDragCancel = onDragCancel !== undefined ? onDragCancel : this.#onDragCancel
@@ -183,15 +190,25 @@ class DragAndDrop {
 		const pageX = e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX
 		const pageY = e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY
 
-		this.#drag.style.left = pageX - (this.#dragHandleCentered ? this.#dragWidth >> 1 : this.#holdX) + 'px'
-		this.#drag.style.top = pageY - (this.#dragHandleCentered ? this.#dragHeight >> 1 : this.#holdY) + 'px'
+		this.#drag.style.left =
+			this.#axis !== 'y'
+				? pageX - (this.#dragHandleCentered ? this.#dragWidth >> 1 : this.#holdX) + 'px'
+				: this.#initialLeft
+		this.#drag.style.top =
+			this.#axis !== 'x'
+				? pageY - (this.#dragHandleCentered ? this.#dragHeight >> 1 : this.#holdY) + 'px'
+				: this.#initialTop
 	}
 
 	#onMouseDown(e) {
 		const clientX = e.type === 'touchstart' ? e.targetTouches[0].clientX : e.clientX
 		const clientY = e.type === 'touchstart' ? e.targetTouches[0].clientY : e.clientY
+		const pageX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX
+		const pageY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY
 		this.#holdX = clientX - this.#target.getBoundingClientRect().left
 		this.#holdY = clientY - this.#target.getBoundingClientRect().top
+		this.#initialLeft = pageX - (this.#dragHandleCentered ? this.#dragWidth >> 1 : this.#holdX) + 'px'
+		this.#initialTop = pageY - (this.#dragHandleCentered ? this.#dragHeight >> 1 : this.#holdY) + 'px'
 
 		this.#drag.style.visibility = 'hidden'
 		this.#drag.style.cursor = 'grabbing'

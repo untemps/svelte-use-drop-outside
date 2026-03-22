@@ -9,6 +9,7 @@ const useDropOutside = (
 		animate,
 		animateOptions,
 		dragHandleCentered,
+		axis,
 		onDropOutside,
 		onDropInside,
 		onDragCancel,
@@ -22,6 +23,7 @@ const useDropOutside = (
 		animate,
 		animateOptions,
 		dragHandleCentered,
+		axis,
 		onDropOutside,
 		onDropInside,
 		onDragCancel
@@ -35,6 +37,7 @@ const useDropOutside = (
 			animate,
 			animateOptions,
 			dragHandleCentered,
+			axis,
 			onDropOutside,
 			onDropInside,
 			onDragCancel,
@@ -46,6 +49,7 @@ const useDropOutside = (
 				animate,
 				animateOptions,
 				dragHandleCentered,
+				axis,
 				onDropOutside,
 				onDropInside,
 				onDragCancel
