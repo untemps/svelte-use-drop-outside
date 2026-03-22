@@ -86,13 +86,6 @@
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.29.2.tgz#9a6e2d05f4b6692e1801cd4fb176ad823930ed5e"
   integrity sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==
 
-"@babel/runtime@^7.17.8":
-  version "7.19.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.19.0.tgz#22b11c037b094d27a8a2504ea4dcff00f50e2259"
-  integrity sha512-eR8Lo9hnDS7tqkO7NsV+mKvCmv5boaXFSZ70DnfhcgiEne8hv9oCEd36Klw74EtizEqLsy4YnW8UWwpBVolHZA==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
 "@babel/types@^7.29.0":
   version "7.29.0"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.29.0.tgz#9f5b1e838c446e72cf3cd4b918152b8c605e37c7"
@@ -1154,12 +1147,10 @@
   resolved "https://registry.yarnpkg.com/@untemps/dom-observer/-/dom-observer-2.0.0.tgz#5b86b091f62905a6f18b0280bbf9067f2949716f"
   integrity sha512-oZBj7j9hYSbuveNFvyPLamRfNh15KvGJC5pLGGpWVcO61EzISMESL0wudwP0UZETEu+0WfaJ16rGXtEZHsq+xw==
 
-"@untemps/utils@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@untemps/utils/-/utils-2.2.0.tgz#7b5dc1827576071e2cf2466fa94461b58d7cb770"
-  integrity sha512-rWlP+382GwoyQFxR/8XIDWwWOGU4s5UrXikQmjAr2AJe1+aENAO8+x2ck/GoBsXw8C0lYblHEBQVrSl46lR5qw==
-  dependencies:
-    "@babel/runtime" "^7.17.8"
+"@untemps/utils@3":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@untemps/utils/-/utils-3.0.0.tgz#0f1968be1c2b079b2425e945e42bc7d61f0d776e"
+  integrity sha512-Iv7a1nvbTzk7ho8bry5iN/RYtns4dwNRuTqD49ixq0N3dOpoMIdSlhvVanbxEmRBqtV7MirCBEfScpTjDbo0ag==
 
 "@vitest/coverage-v8@^4.0.0":
   version "4.1.0"
@@ -4099,11 +4090,6 @@ redeyed@~2.1.0:
   integrity sha1-iYS1gV2ZyyIEacme7v/jiRPmzAs=
   dependencies:
     esprima "~4.0.0"
-
-regenerator-runtime@^0.13.4:
-  version "0.13.9"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
-  integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==
 
 registry-auth-token@^4.0.0:
   version "4.2.1"

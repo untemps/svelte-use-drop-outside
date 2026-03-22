@@ -38,7 +38,7 @@
 	},
 	"dependencies": {
 		"@untemps/dom-observer": "^2.0.0",
-		"@untemps/utils": "^2.2.0"
+		"@untemps/utils": "3"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.3",
