@@ -46,6 +46,69 @@
 	}
 </script>
 
+<main>
+	{#if showSettings}
+		<div class="settings__container">
+			<button type="button" class="toggle__button" on:click={() => (showSettings = !showSettings)}>
+				<CloseIcon />
+			</button>
+			<form class="settings__form">
+				<h1>Settings</h1>
+				<fieldset class="horizontal">
+					<label for="animate"> Animate Drag Back: </label>
+					<input id="animate" type="checkbox" bind:checked={animate} />
+				</fieldset>
+				<fieldset class="horizontal">
+					<label for="useDragCustomClass"> Use Drag Class: </label>
+					<input id="useDragCustomClass" type="checkbox" bind:checked={useDragClass} />
+				</fieldset>
+				<fieldset class="horizontal">
+					<label for="useDragImage"> Use Drag Image: </label>
+					<input id="useDragImage" type="checkbox" bind:checked={useDragImage} />
+				</fieldset>
+				<fieldset class="horizontal">
+					<label for="isHandleCentered"> Center Handle: </label>
+					<input id="isHandleCentered" type="checkbox" bind:checked={isHandleCentered} />
+				</fieldset>
+			</form>
+		</div>
+	{/if}
+
+	<div class="container">
+		<button type="button" class="toggle__button" on:click={() => (showSettings = !showSettings)}>
+			<SettingsIcon />
+		</button>
+		<div id="area" class="area">
+			<ul class="slot-list">
+				{#each colors as color, index}
+					<li
+						use:useDropOutside={{
+							areaSelector: '.area',
+							animate,
+							animateOptions: {
+								timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+							},
+							dragImage: useDragImage
+								? {
+										src: 'https://www.123-stickers.com/7345-thickbox/autocollant-bebe-winnie-l-ourson.jpg',
+										height: 70,
+									}
+								: null,
+							dragClassName: useDragClass ? 'drag' : null,
+							dragHandleCentered: isHandleCentered,
+							onDropOutside: _onDropOutside,
+							onDropInside: _onDropInside,
+							onDragCancel: _onDragCancel,
+						}}
+						style={`background-color: ${color}`}
+						class="slot"
+					/>
+				{/each}
+			</ul>
+		</div>
+	</div>
+</main>
+
 <style>
 	main {
 		display: flex;
@@ -153,65 +216,3 @@
 		padding: 0;
 	}
 </style>
-
-<main>
-	{#if showSettings}
-		<div class="settings__container">
-			<button type="button" class="toggle__button" on:click={() => (showSettings = !showSettings)}>
-				<CloseIcon />
-			</button>
-			<form class="settings__form">
-				<h1>Settings</h1>
-				<fieldset class="horizontal">
-					<label for="animate"> Animate Drag Back: </label>
-					<input id="animate" type="checkbox" bind:checked={animate} />
-				</fieldset>
-				<fieldset class="horizontal">
-					<label for="useDragCustomClass"> Use Drag Class: </label>
-					<input id="useDragCustomClass" type="checkbox" bind:checked={useDragClass} />
-				</fieldset>
-				<fieldset class="horizontal">
-					<label for="useDragImage"> Use Drag Image: </label>
-					<input id="useDragImage" type="checkbox" bind:checked={useDragImage} />
-				</fieldset>
-				<fieldset class="horizontal">
-					<label for="isHandleCentered"> Center Handle: </label>
-					<input id="isHandleCentered" type="checkbox" bind:checked={isHandleCentered} />
-				</fieldset>
-			</form>
-		</div>
-	{/if}
-
-	<div class="container">
-		<button type="button" class="toggle__button" on:click={() => (showSettings = !showSettings)}>
-			<SettingsIcon />
-		</button>
-		<div id="area" class="area">
-			<ul class="slot-list">
-				{#each colors as color, index}
-					<li
-						use:useDropOutside={{
-							areaSelector: '.area',
-							animate,
-							animateOptions: {
-								timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-							},
-							dragImage: useDragImage
-								? {
-										src: 'https://www.123-stickers.com/7345-thickbox/autocollant-bebe-winnie-l-ourson.jpg',
-										height: 70,
-								  }
-								: null,
-							dragClassName: useDragClass ? 'drag' : null,
-							dragHandleCentered: isHandleCentered,
-							onDropOutside: _onDropOutside,
-							onDropInside: _onDropInside,
-							onDragCancel: _onDragCancel,
-						}}
-						style={`background-color: ${color}`}
-						class="slot" />
-				{/each}
-			</ul>
-		</div>
-	</div>
-</main>

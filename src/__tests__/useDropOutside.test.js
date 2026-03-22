@@ -1,7 +1,3 @@
-/**
- * @jest-environment jsdom
- */
-
 import { fireEvent, screen } from '@testing-library/dom'
 
 import { createElement } from '@untemps/utils/dom/createElement'
@@ -128,7 +124,7 @@ describe('useDropOutside', () => {
 		})
 
 		it('Triggers onDropInside callback', async () => {
-			const onDropInside = jest.fn()
+			const onDropInside = vi.fn()
 			action = useDropOutside(target, { ...options, animate: true, onDropInside })
 
 			fireEvent.touchStart(target, { targetTouches: [{ pageX: 10, pageY: 10 }] })
@@ -152,8 +148,8 @@ describe('useDropOutside', () => {
 		})
 
 		it('Triggers onDropInside callback on update', async () => {
-			const onDropInside = jest.fn()
-			const onDropInsideRepl = jest.fn()
+			const onDropInside = vi.fn()
+			const onDropInsideRepl = vi.fn()
 			action = useDropOutside(target, { ...options, onDropInside })
 			action.update({ onDropInside: onDropInsideRepl })
 
@@ -177,7 +173,7 @@ describe('useDropOutside', () => {
 		})
 
 		it('Triggers onDropOutside callback', async () => {
-			const onDropOutside = jest.fn()
+			const onDropOutside = vi.fn()
 			action = useDropOutside(target, { ...options, onDropOutside })
 
 			fireEvent.mouseDown(target)
@@ -199,8 +195,8 @@ describe('useDropOutside', () => {
 		})
 
 		it('Triggers onDropOutside callback on update', async () => {
-			const onDropOutside = jest.fn()
-			const onDropOutsideRepl = jest.fn()
+			const onDropOutside = vi.fn()
+			const onDropOutsideRepl = vi.fn()
 			action = useDropOutside(target, { ...options, onDropOutside })
 			action.update({ onDropOutside: onDropOutsideRepl })
 
@@ -223,7 +219,7 @@ describe('useDropOutside', () => {
 		})
 
 		it('Triggers onDragCancel callback', async () => {
-			const onDragCancel = jest.fn()
+			const onDragCancel = vi.fn()
 			action = useDropOutside(target, { ...options, animate: true, onDragCancel })
 
 			fireEvent.mouseDown(target)
@@ -236,8 +232,8 @@ describe('useDropOutside', () => {
 		})
 
 		it('Triggers onDragCancel callback on update', async () => {
-			const onDragCancel = jest.fn()
-			const onDragCancelRepl = jest.fn()
+			const onDragCancel = vi.fn()
+			const onDragCancelRepl = vi.fn()
 			action = useDropOutside(target, { ...options, animate: true, onDragCancel })
 			action.update({ animate: false, onDragCancel: onDragCancelRepl })
 
@@ -256,7 +252,7 @@ describe('useDropOutside', () => {
 			fireEvent.mouseMove(document)
 
 			expect(screen.getByRole('presentation')).toBeInTheDocument()
-			expect(screen.getByRole('presentation')).toHaveStyle('background-color: black;')
+			expect(screen.getByRole('presentation')).toHaveStyle('background-color: rgb(0, 0, 0);')
 		})
 
 		it('Sets custom class to dragged element on update', async () => {
@@ -267,7 +263,7 @@ describe('useDropOutside', () => {
 			fireEvent.mouseMove(document)
 
 			expect(screen.getByRole('presentation')).toBeInTheDocument()
-			expect(screen.getByRole('presentation')).toHaveStyle('background-color: red;')
+			expect(screen.getByRole('presentation')).toHaveStyle('background-color: rgb(255, 0, 0);')
 		})
 
 		it('Sets unknown custom class to dragged element', async () => {

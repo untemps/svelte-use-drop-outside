@@ -9,7 +9,7 @@
 </p>
 
 [![npm](https://img.shields.io/npm/v/@untemps/svelte-use-drop-outside?style=for-the-badge)](https://www.npmjs.com/package/@untemps/svelte-use-drop-outside)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/untemps/svelte-use-drop-outside/index.yml?style=for-the-badge)](https://github.com/untemps/svelte-use-drop-outside/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/untemps/svelte-use-drop-outside/publish.yml?style=for-the-badge)](https://github.com/untemps/svelte-use-drop-outside/actions)
 [![Codecov](https://img.shields.io/codecov/c/github/untemps/svelte-use-drop-outside?style=for-the-badge)](https://codecov.io/gh/untemps/svelte-use-drop-outside)
 
 ## Demo

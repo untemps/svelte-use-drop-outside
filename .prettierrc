@@ -1,5 +1,5 @@
 {
-	"pluginSearchDirs": ["."],
+	"plugins": ["prettier-plugin-svelte"],
 	"printWidth": 120,
 	"useTabs": true,
 	"tabWidth": 4,
@@ -9,24 +9,13 @@
 	"bracketSpacing": true,
 	"overrides": [
 		{
-			"files": "./**/*.js",
+			"files": "**/*.svelte",
 			"options": {
-				"parser": "babel"
+				"parser": "svelte"
 			}
 		},
-      {
-        "files": "./**/*.svelte",
-        "options": {
-          "svelteBracketNewLine": false,
-          "svelteAllowShorthand": false,
-          "svelteSortOrder" : "options-scripts-styles-markup",
-          "plugins": [
-            "prettier-plugin-svelte"
-          ]
-        }
-      },
 		{
-			"files": "./**/*.json",
+			"files": "**/*.json",
 			"options": {
 				"parser": "json"
 			}
