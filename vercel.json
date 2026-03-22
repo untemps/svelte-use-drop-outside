@@ -1,0 +1,4 @@
+{
+	"buildCommand": "cd dev && yarn && yarn build",
+	"outputDirectory": "dev/dist"
+}
