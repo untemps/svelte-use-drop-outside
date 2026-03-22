@@ -4,15 +4,7 @@
 	"author": "Vincent Le Badezet <v.lebadezet@untemps.net>",
 	"license": "MIT",
 	"description": "Svelte action to drop an element outside an area",
-	"keywords": [
-		"drag",
-		"drop",
-		"dragndrop",
-		"svelte",
-		"svelte-action",
-		"action",
-		"javascript"
-	],
+	"keywords": ["drag", "drop", "dragndrop", "svelte", "svelte-action", "action", "javascript"],
 	"private": false,
 	"type": "module",
 	"repository": "https://github.com/untemps/svelte-use-drop-outside.git",
@@ -30,9 +22,7 @@
 			"require": "./dist/index.cjs"
 		}
 	},
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"peerDependencies": {
 		"svelte": "^5.0.0"
 	},
@@ -50,7 +40,7 @@
 		"@testing-library/jest-dom": "^6.0.0",
 		"@testing-library/svelte": "^5.0.0",
 		"@vitest/coverage-v8": "^4.0.0",
-		"husky": "^8.0.1",
+		"husky": "9",
 		"jsdom": "^29.0.0",
 		"prettier": "^3.0.0",
 		"prettier-plugin-svelte": "^3.0.0",
@@ -66,7 +56,7 @@
 		"test": "vitest --coverage",
 		"test:ci": "vitest run --coverage",
 		"prettier": "prettier \"**/*.{js,svelte,json}\" --ignore-path ./.prettierignore --write && git add . && git status",
-		"prepare": "husky install"
+		"prepare": "husky"
 	},
 	"release": {
 		"branches": [
