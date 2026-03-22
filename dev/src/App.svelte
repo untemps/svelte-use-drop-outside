@@ -32,6 +32,7 @@
 	let useDragClass = false
 	let useDragImage = false
 	let isHandleCentered = false
+	let axis = 'both'
 
 	const _onDropOutside = (node, area) => {
 		node.remove()
@@ -70,6 +71,15 @@
 					<label for="isHandleCentered"> Center Handle: </label>
 					<input id="isHandleCentered" type="checkbox" bind:checked={isHandleCentered} />
 				</fieldset>
+				<fieldset>
+					<legend>Drag Axis:</legend>
+					{#each ['both', 'x', 'y'] as value}
+						<label class="radio">
+							<input type="radio" bind:group={axis} {value} />
+							{value}
+						</label>
+					{/each}
+				</fieldset>
 			</form>
 		</div>
 	{/if}
@@ -88,6 +98,7 @@
 							animateOptions: {
 								timingFunction: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
 							},
+							axis,
 							dragImage: useDragImage
 								? {
 										src: 'https://www.123-stickers.com/7345-thickbox/autocollant-bebe-winnie-l-ourson.jpg',
@@ -206,6 +217,19 @@
 		align-items: center;
 		justify-content: space-between;
 		column-gap: 1rem;
+	}
+
+	.settings__form fieldset legend {
+		font-size: 0.875rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.radio {
+		display: flex;
+		align-items: center;
+		gap: 0.375rem;
+		font-size: 0.875rem;
+		cursor: pointer;
 	}
 
 	.settings__form input {
