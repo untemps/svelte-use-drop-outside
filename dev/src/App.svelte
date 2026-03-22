@@ -71,8 +71,8 @@
 					<label for="isHandleCentered"> Center Handle: </label>
 					<input id="isHandleCentered" type="checkbox" bind:checked={isHandleCentered} />
 				</fieldset>
-				<fieldset>
-					<legend>Drag Axis:</legend>
+				<fieldset class="horizontal">
+					<label for="isHandleCentered"> Drag Axis: </label>
 					{#each ['both', 'x', 'y'] as value}
 						<label class="radio">
 							<input type="radio" bind:group={axis} {value} />
