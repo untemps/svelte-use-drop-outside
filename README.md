@@ -15,7 +15,7 @@
 ## Demo
 
 <p align="center">
-    :red_circle:&nbsp;<big><a href="https://svelte-use-drop-outside.vercel.app/" target="_blank" rel="noopener">LIVE DEMO</a></big>&nbsp;:red_circle:
+    :red_circle:&nbsp;<big><a href="https://svelte-use-drop-outside.vercel.app/" target="_blank" rel="noopener">LIVE DEMO</a></big>
 </p>
 
 ## Installation
@@ -105,6 +105,7 @@ yarn add @untemps/svelte-use-drop-outside
 | `animate`            | boolean                     | false                                    | A flag to enable animation back.                                                       |
 | `animateOptions`     | object                      | { duration: .2, timingFunction: 'ease' } | Optional options for the animation back (see [Animation Options](#animation-options)). |
 | `dragHandleCentered` | boolean                     | false                                    | A flag to handle the dragged element by its center.                                    |
+| `axis`               | string                      | 'both'                                   | Constrains the drag direction. Accepted values: `'x'`, `'y'`, `'both'`.               |
 | `onDropOutside`      | function                    | null                                     | Callback triggered when the dragged element is dropped outside the area.               |
 | `onDropInside`       | function                    | null                                     | Callback triggered when the dragged element is dropped inside the area                 |
 | `onDragCancel`       | function                    | null                                     | Callback triggered when the drag is cancelled (Esc key)                                |
@@ -262,6 +263,29 @@ The `dragHandleCentered` prop allows to control the way the dragged element is h
 - If `true`, the center point the dragged element will be used.
 - If `false`, the top left point of the dragged element will be used.
 
+### Axis
+
+The `axis` prop constrains the direction in which the element can be dragged:
+
+| Value    | Description                                       |
+|----------|---------------------------------------------------|
+| `'both'` | Default. The element can be dragged in any direction. |
+| `'x'`    | Drag is constrained to the horizontal axis only.  |
+| `'y'`    | Drag is constrained to the vertical axis only.    |
+
+```svelte
+<div
+    id="target"
+    use:useDropOutside={{
+        areaSelector: '.area',
+        axis: 'x',
+        onDropOutside: _onDropOutside,
+    }}
+>
+    Drag me horizontally
+</div>
+```
+
 ### Callbacks
 
 All callbacks are triggered with the following arguments:
@@ -366,7 +390,7 @@ You may use the action to implement a classic drag and drop container switch usi
 
 ## Development
 
-The action can be served for development purpose on `http://localhost:5000/` running:
+The action can be served for development purpose on `http://localhost:5173/` running:
 
 ```bash
 yarn dev
