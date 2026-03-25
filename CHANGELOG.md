@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.6.0...v1.7.0) (2026-03-25)
+
+
+### Features
+
+* Add axis option to constrain drag direction ([#26](https://github.com/untemps/svelte-use-drop-outside/issues/26)) ([e3d4407](https://github.com/untemps/svelte-use-drop-outside/commit/e3d4407f61e766762514107885a78cac9b150636))
+
 # [1.6.0](https://github.com/untemps/svelte-use-drop-outside/compare/v1.5.0...v1.6.0) (2022-09-12)
 
 
